@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rocketjumper;
+package quantumLock;
 
 import city.cs.engine.*;
 import org.jbox2d.common.Vec2;
-import rocketjumper.Freeze.FreezeBall;
-import rocketjumper.Levels.Level;
+import quantumLock.Freeze.FreezeBall;
+import quantumLock.Levels.Level;
 
 /**
  *

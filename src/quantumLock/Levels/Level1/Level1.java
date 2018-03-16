@@ -3,14 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rocketjumper.Levels.Level1;
+package quantumLock.Levels.Level1;
 
-import rocketjumper.Levels.TutorialText;
-import rocketjumper.*;
-import rocketjumper.Objects.*;
+import quantumLock.*;
+import quantumLock.Levels.Level;
+import quantumLock.Objects.Crate;
+import quantumLock.Levels.TutorialText;
+
 import city.cs.engine.*;
 import org.jbox2d.common.Vec2;
-import rocketjumper.Levels.Level;
+
 
 /**
  *
@@ -18,8 +20,8 @@ import rocketjumper.Levels.Level;
  */
 public class Level1 extends Level{
     @Override
-    public void initialize(RocketJumper rocketJumper) {
-        super.initialize(rocketJumper);
+    public void initialize(QuantumLock quantumLock) {
+        super.initialize(quantumLock);
 
         StaticBody staticBody0 = new StaticBody(this, new BoxShape(15.0f, 0.5f));
         staticBody0.setPosition(new Vec2(-5.0f, -5.5f));

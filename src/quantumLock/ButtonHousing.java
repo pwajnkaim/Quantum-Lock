@@ -1,8 +1,8 @@
-package rocketjumper;
+package quantumLock;
 
 import city.cs.engine.*;
 import org.jbox2d.common.Vec2;
-import rocketjumper.Levels.Level;
+import quantumLock.Levels.Level;
 
 /**
  *

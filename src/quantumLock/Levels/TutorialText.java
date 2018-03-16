@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rocketjumper.Levels;
+package quantumLock.Levels;
 
 import city.cs.engine.BodyImage;
 import city.cs.engine.StaticBody;

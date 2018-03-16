@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rocketjumper.Freeze;
+package quantumLock.Freeze;
 
 import city.cs.engine.*;
 import java.lang.reflect.Constructor;

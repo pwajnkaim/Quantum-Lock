@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rocketjumper;
+package quantumLock;
 
 import city.cs.engine.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
 import javax.swing.Timer;
 
-import rocketjumper.Levels.Level;
+import quantumLock.Levels.Level;
 
 
 /**

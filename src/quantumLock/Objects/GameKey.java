@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rocketjumper.Objects;
+package quantumLock.Objects;
 
 import city.cs.engine.*;
-import rocketjumper.PlayerCharacter;
+import quantumLock.PlayerCharacter;
 
 /**
  *

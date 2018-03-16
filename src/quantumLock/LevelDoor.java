@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rocketjumper;
+package quantumLock;
 
 import city.cs.engine.BodyImage;
 import city.cs.engine.BoxShape;
@@ -12,7 +12,7 @@ import city.cs.engine.CollisionListener;
 import city.cs.engine.SolidFixture;
 import city.cs.engine.StaticBody;
 import city.cs.engine.World;
-import rocketjumper.Levels.Level;
+import quantumLock.Levels.Level;
 
 /**
  *

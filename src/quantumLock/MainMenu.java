@@ -1,4 +1,4 @@
-package rocketjumper;
+package quantumLock;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,11 +11,11 @@ public class MainMenu {
     private JButton btnContinueGame;
     public JPanel mainMenu;
 
-    public MainMenu(RocketJumper rocketJumper) {
+    public MainMenu(QuantumLock QuantumLock) {
         btnNewGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                rocketJumper.newGame();
+                QuantumLock.newGame();
             }
         });
     }
@@ -62,7 +62,7 @@ public class MainMenu {
         if (label1Font != null) label1.setFont(label1Font);
         label1.setHorizontalAlignment(0);
         label1.setHorizontalTextPosition(0);
-        label1.setText("My Game");
+        label1.setText("Quantum Lock");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 1;

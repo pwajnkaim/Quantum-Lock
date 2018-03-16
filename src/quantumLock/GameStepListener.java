@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rocketjumper;
+package quantumLock;
 
 import city.cs.engine.StepEvent;
 import city.cs.engine.StepListener;
 import city.cs.engine.WorldView;
 import java.awt.Point;
 import org.jbox2d.common.Vec2;
-import rocketjumper.Levels.Level;
+import quantumLock.Levels.Level;
 
 /**
  *

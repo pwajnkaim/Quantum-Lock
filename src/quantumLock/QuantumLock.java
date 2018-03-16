@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rocketjumper;
+package quantumLock;
 
-import rocketjumper.Levels.Level1.Level1;
-import rocketjumper.Levels.*;
+import quantumLock.Levels.Level1.Level1;
+import quantumLock.Levels.*;
 import city.cs.engine.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -19,7 +19,7 @@ import javax.swing.*;
  *
  * @author pwajn
  */
-public class RocketJumper extends KeyAdapter{
+public class QuantumLock extends KeyAdapter{
     private final JFrame frame;
 
     public enum GameState {
@@ -30,7 +30,7 @@ public class RocketJumper extends KeyAdapter{
 
     private List<Level> levelList = new ArrayList<>();
 
-    private RocketJumper(){
+    private QuantumLock(){
         levelList.add(new Level1());
         levelList.add(new Level2());
 
@@ -103,7 +103,7 @@ public class RocketJumper extends KeyAdapter{
     }
 
     public static void main(String[] args) {
-        new RocketJumper();
+        new QuantumLock();
     }
     
     @Override

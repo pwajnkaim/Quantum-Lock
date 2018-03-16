@@ -99,7 +99,7 @@ public class QuantumLock extends KeyAdapter{
 
         //debug
         //view.setGridResolution(1);
-        DebugViewer debugView = new DebugViewer(world, 500, 500);
+        //DebugViewer debugView = new DebugViewer(world, 500, 500);
     }
 
     public static void main(String[] args) {

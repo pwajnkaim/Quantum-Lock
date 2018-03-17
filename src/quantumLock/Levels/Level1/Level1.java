@@ -69,15 +69,13 @@ public class Level1 extends Level{
 
         new Crate(this, new Vec2(14,2));
 
-        WeightButton button0 = new WeightButton(this, new Vec2(52,4));
-        button0.housing.connectToDoor(door0);
-        WeightButton button1 = new WeightButton(this, new Vec2(77,-15), 20);
-        button1.housing.connectToDoor(door1);
+        WeightButton button0 = new WeightButton(this, new Vec2(52,4), door0);
+        WeightButton button1 = new WeightButton(this, new Vec2(77,-15), 20, door1);
 
         //spawn crates
         for (int i = 5; i > 0; i--) {
             for (int v = 0; v < i; v++) {
-                Crate crate = new Crate(this, new Vec2((1f*(i+0.5f)+48.5f)-v*0.5f, (1*(v+0.5f)) -13f), 40);
+                new Crate(this, new Vec2((1f*(i+0.5f)+48.5f)-v*0.5f, (1*(v+0.5f)) -13f), 40);
             }
         }
         
@@ -105,8 +103,7 @@ public class Level1 extends Level{
 
         //create player character
         player = new PlayerCharacter(this);
-        //player.setPosition(new Vec2(-16,0.5f));
-        player.setPosition(new Vec2(100f,-10));
+        player.setPosition(new Vec2(-16,0.5f));
         player.disableGun();
     }
 }

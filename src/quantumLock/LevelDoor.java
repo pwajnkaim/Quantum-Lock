@@ -13,7 +13,7 @@ import quantumLock.Levels.Level;
  * @author pwajn
  */
 public class LevelDoor extends StaticBody implements SensorListener{
-    Level world;
+    private Level world;
     public LevelDoor(World world){
         super(world);
         this.world = (Level)world;

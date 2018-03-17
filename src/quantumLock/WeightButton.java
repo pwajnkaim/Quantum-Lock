@@ -8,26 +8,41 @@ import org.jbox2d.common.Vec2;
  * @author pwajn
  */
 public class WeightButton{
-    public Button button;
-    public Housing housing;
+    private Button button;
+    private Housing housing;
 
     public WeightButton(World world, Vec2 pos) {
         button = new Button(world);
-        init(world,pos);
+        init(world,pos,null);
     }
 
     public WeightButton(World world, Vec2 pos, float buttonDensity) {
         button = new Button(world, buttonDensity);
-        init(world,pos);
+        init(world,pos,null);
     }
 
-    private void init(World world, Vec2 pos) {
+    public WeightButton(World world, Vec2 pos, SlidingDoor door) {
+        button = new Button(world);
+        init(world,pos,door);
+    }
+
+    public WeightButton(World world, Vec2 pos, float buttonDensity, SlidingDoor door) {
+        button = new Button(world, buttonDensity);
+        init(world,pos,door);
+    }
+
+    private void init(World world, Vec2 pos, SlidingDoor door) {
         button.setPosition(pos.sub(new Vec2(0,0.5f))); //button is 0.5 lower than housing
         housing = new Housing(world);
         housing.setPosition(pos);
+        if(door != null) connectToDoor(door);
     }
 
-    public class Button extends Walker {
+    public void connectToDoor(SlidingDoor door) {
+        housing.connectToDoor(door);
+    }
+
+    class Button extends Walker {
 
         private Button(World world, float density) {
             super(world);
@@ -75,7 +90,7 @@ public class WeightButton{
             }
         }
 
-        public void connectToDoor(SlidingDoor slidingDoor) {
+        private void connectToDoor(SlidingDoor slidingDoor) {
             door = slidingDoor;
         }
     }

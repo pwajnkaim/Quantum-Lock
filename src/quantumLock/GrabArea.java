@@ -11,7 +11,7 @@ import city.cs.engine.*;
  *
  * @author pwajn
  */
-class GrabArea extends StaticBody{
+public class GrabArea extends StaticBody{
     
     GrabArea(PlayerCharacter player) {
         super(player.getWorld());

@@ -7,20 +7,34 @@ package quantumLock.Levels;
 
 import city.cs.engine.*;
 import org.jbox2d.common.Vec2;
+import quantumLock.*;
 import quantumLock.Objects.Crate;
 import quantumLock.Objects.GameKey;
 import quantumLock.Objects.Rope;
-import quantumLock.PlayerCharacter;
-import quantumLock.QuantumLock;
 
 /**
  *
  * @author pwajn
  */
 public class Level2 extends Level{
+    Vec2 playerInitialPos = new Vec2(8,0);
+
     @Override
     public void initialize(QuantumLock quantumLock) {
         super.initialize(quantumLock);
+
+        //create player character
+        player = new PlayerCharacter(this);
+        player.setPosition(playerInitialPos);
+
+        //create level bodies
+        levelPopulate();
+    }
+
+    @Override
+    public void levelPopulate() {
+        player.setPosition(playerInitialPos);
+
         // Ground
         Body ground = new StaticBody(this, new BoxShape(25, 0.5f));
         ground.setPosition(new Vec2(0, -11.5f));
@@ -58,9 +72,18 @@ public class Level2 extends Level{
 
         GameKey key3 = new GameKey(this);
         key3.setPosition(new Vec2(23f,-10f));
+    }
 
-        //create player character
-        player = new PlayerCharacter(this);
-        player.setPosition(new Vec2(8,0.5f));
+    @Override
+    public void levelReset() {
+        //delete everything except for player
+        for (StaticBody body : getStaticBodies()) {
+            if(!(body instanceof GrabArea)) body.destroy();
+        }
+        for (DynamicBody body : getDynamicBodies()) {
+            if(!(body instanceof PlayerCharacter)) body.destroy();
+        }
+        player.setLinearVelocity(new Vec2(0,0));
+        levelPopulate();
     }
 }

@@ -33,7 +33,7 @@ public class GameMouseListener extends MouseAdapter{
     
     @Override
     public void mousePressed(MouseEvent e) {
-        view.requestFocus();
+        //view.requestFocus();
         if(world.getPlayer().grabbedBody == null) {
             if(e.getButton() == 1) { //left click
                 world.getPlayer().fire();

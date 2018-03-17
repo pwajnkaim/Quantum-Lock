@@ -10,6 +10,7 @@ import quantumLock.Levels.*;
 import city.cs.engine.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,9 @@ import javax.swing.*;
  * @author pwajn
  */
 public class QuantumLock extends KeyAdapter{
-    private final JFrame frame;
+    public final JFrame frame;
+    Level world;
+    UserView view;
 
     public enum GameState {
         MAINMENU, GAME
@@ -41,7 +44,7 @@ public class QuantumLock extends KeyAdapter{
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //close when closed
         frame.setLocationByPlatform(true);
         frame.setResizable(true);
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setUndecorated(true);
         frame.setVisible(true);
         //frame.
@@ -74,8 +77,9 @@ public class QuantumLock extends KeyAdapter{
         startLevel(currentLevel);
     }
 
-    public void resetLevel() {
-        goToLevel(2);
+    public void resetLevel(Level level) {
+        //goToLevel(2);
+        level = null;
         startLevel(1);
     }
 
@@ -83,29 +87,35 @@ public class QuantumLock extends KeyAdapter{
         gameState = GameState.GAME;
         frame.getContentPane().removeAll();
 
-        System.out.println(level);
-        Level world = levelList.get(level - 1);
+        Level world = levelList.get(level-1);
         world.initialize(this);
-        UserView view = new UserView(world, 1366, 768);
+
+        if (view==null) {
+            view = new UserView(world, 1366, 768);
+        } else {
+            view.setWorld(world);
+            view.setSize(1366,768);
+        }
+
         world.setView(view);
         frame.add(view); //show world in window
         frame.setVisible(true);
 
         //listeners
         GameMouseListener gameMouseListener = new GameMouseListener(view);
-        view.addMouseListener(gameMouseListener); //mouse listener
-        view.addMouseMotionListener(gameMouseListener); //mouse motion listener
+        frame.addMouseListener(gameMouseListener); //mouse listener
+        frame.addMouseMotionListener(gameMouseListener); //mouse motion listener
         world.addStepListener(new GameStepListener(world.getPlayer())); //step listener
-        view.addKeyListener(new GameKeyListener(world.getPlayer())); //key listener
+        frame.addKeyListener(new GameKeyListener(world.getPlayer())); //key listener
         
-        view.addKeyListener(this);//for closing the game
+        frame.addKeyListener(this);//for closing the game
 
         world.start();
-        view.requestFocus();
+        frame.requestFocus();
 
         //debug
-        //view.setGridResolution(1);
-        DebugViewer debugView = new DebugViewer(world, 500, 500);
+        view.setGridResolution(1);
+        //DebugViewer debugView = new DebugViewer(world, 500, 500);
     }
 
     public static void main(String[] args) {

@@ -19,9 +19,30 @@ import org.jbox2d.common.Vec2;
  * @author pwajn
  */
 public class Level1 extends Level{
+    private final Vec2 playerInitialPos = new Vec2(-16,-3);
+    //private final Vec2 playerInitialPos = new Vec2(100,-13);
+
+    public Level1() {
+
+    }
+
     @Override
     public void initialize(QuantumLock quantumLock) {
         super.initialize(quantumLock);
+
+        //create player character
+        player = new PlayerCharacter(this);
+        player.setPosition(playerInitialPos);
+        player.disableGun();
+
+        //create level bodies
+        levelPopulate();
+
+    }
+
+    @Override
+    public void levelPopulate() {
+        player.setPosition(playerInitialPos);
 
         StaticBody staticBody0 = new StaticBody(this, new BoxShape(15.0f, 0.5f));
         staticBody0.setPosition(new Vec2(-5.0f, -5.5f));
@@ -78,32 +99,28 @@ public class Level1 extends Level{
                 new Crate(this, new Vec2((1f*(i+0.5f)+48.5f)-v*0.5f, (1*(v+0.5f)) -13f), 40);
             }
         }
-        
+
         new TutorialText(this, "sprites/tutorialText/jump.png", new Vec2(-8,0), 5);
         new TutorialText(this, "sprites/tutorialText/hold.png", new Vec2(15.3f,0), 3);
         new TutorialText(this, "sprites/tutorialText/throw.png", new Vec2(26,7), 5);
         new TutorialText(this, "sprites/tutorialText/stuck.png", new Vec2(39.1f,0.5f), 3);
         new TutorialText(this, "sprites/tutorialText/button1.png", new Vec2(52f,10f), 5);
         new TutorialText(this, "sprites/tutorialText/button2.png", new Vec2(70f,-5f), 4.5f);
-        
+
         LevelDoor exit = new LevelDoor(this);
         exit.setPosition(new Vec2(103f,-13.68f));
-        
-        //new TutorialText(this, "sprites/tutorialText/jump.png", new Vec2(-8,0));
+    }
 
-        //rope anchor
-        /*Body ropeAnchor = new StaticBody(this, new CircleShape(0.4f));
-        ropeAnchor.setPosition(new Vec2(-0.5f, 9f));
-        ((SolidFixture)ropeAnchor.getFixtureList().get(0)).setFriction(0.001f); //set anchor friction
-        //spawn rope
-        for (int i = 0; i < 10; i++) {
-            Rope rope = new Rope(this);
-            rope.setPosition(new Vec2((i*3.75f*rope.getScale())+2f, 9));
-        }*/
-
-        //create player character
-        player = new PlayerCharacter(this);
-        player.setPosition(new Vec2(-16,0.5f));
-        player.disableGun();
+    @Override
+    public void levelReset() {
+        //delete everything except for player
+        for (StaticBody body : getStaticBodies()) {
+            if(!(body instanceof GrabArea)) body.destroy();
+        }
+        for (DynamicBody body : getDynamicBodies()) {
+            if(!(body instanceof PlayerCharacter)) body.destroy();
+        }
+        player.setLinearVelocity(new Vec2(0,0));
+        levelPopulate();
     }
 }

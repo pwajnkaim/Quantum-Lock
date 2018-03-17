@@ -5,8 +5,13 @@
  */
 package quantumLock.Levels;
 
+import city.cs.engine.DynamicBody;
+import city.cs.engine.StaticBody;
 import city.cs.engine.World;
 import city.cs.engine.WorldView;
+import org.jbox2d.common.Vec2;
+import quantumLock.GrabArea;
+import quantumLock.Levels.Level1.Level1;
 import quantumLock.PlayerCharacter;
 import quantumLock.QuantumLock;
 import quantumLock.SlidingDoor;
@@ -23,19 +28,23 @@ public class Level extends World{
     protected WorldView view;
     protected PlayerCharacter player;
 
-    private List<SlidingDoor> slidingDoors;
+    private List<SlidingDoor> slidingDoors = new ArrayList<>();
 
     public void initialize(QuantumLock quantumLock) {
         this.quantumLock = quantumLock;
-        slidingDoors = new ArrayList<>();
     }
 
     public void levelComplete() {
+        delete();
+        this.oneStep();
         quantumLock.nextLevel();
     }
+
     public void levelReset() {
-        quantumLock.resetLevel();
+
     }
+
+    public void levelPopulate() {}
 
     public PlayerCharacter getPlayer(){
         return player;
@@ -53,5 +62,15 @@ public class Level extends World{
     }
     public List<SlidingDoor> getSlidingDoors() {
         return slidingDoors;
+    }
+
+    public void delete() {
+        for (StaticBody body : getStaticBodies()) {
+            System.out.println(body);
+            body.destroy();
+        }
+        for (DynamicBody body : getDynamicBodies()) {
+            body.destroy();
+        }
     }
 }

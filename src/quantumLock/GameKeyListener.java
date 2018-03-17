@@ -7,6 +7,9 @@ package quantumLock;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jbox2d.common.Vec2;
 import quantumLock.Levels.Level;
 
@@ -16,6 +19,7 @@ import quantumLock.Levels.Level;
  */
 public class GameKeyListener extends KeyAdapter{
     private PlayerCharacter player;
+    public List<Object> fuck = new ArrayList<>();
     
     GameKeyListener(PlayerCharacter player) {
         this.player = player;
@@ -41,6 +45,7 @@ public class GameKeyListener extends KeyAdapter{
         }
         if (e.getKeyCode() == KeyEvent.VK_D) { //RIGHT
             player.movingRight = true;
+            fuck = null;
         }
         if (e.getKeyCode() == KeyEvent.VK_R) { //Reset Level
             ((Level)player.getWorld()).levelReset();

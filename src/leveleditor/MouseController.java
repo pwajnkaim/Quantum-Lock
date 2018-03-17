@@ -1,27 +1,22 @@
+package leveleditor;
 
 import city.cs.engine.*;
-
 import java.awt.event.*;
-
 import org.jbox2d.common.Vec2;
-
 import javax.swing.*;
-
 
 /**
  *
  * @author pwajn
  */
 public class MouseController extends MouseAdapter implements ActionListener{
-    private KeyController keyController;
-
     final private WorldView view;
 
     private Body holding = null;
     private Body selected = null;
 
-    JTextField textBox;
-    JTextField textBox2;
+    private JTextField textBox;
+    private JTextField textBox2;
 
     Vec2 offset; //offset between mouse and screen centre, used for dragging
     Vec2 holdingOffset; //used for dragging bodies (so their center doesn't snap to the mouse)'
@@ -36,10 +31,6 @@ public class MouseController extends MouseAdapter implements ActionListener{
         textBox.addActionListener(this);
         textBox2.addActionListener(this);
         toggleTextBox(false);
-    }
-
-    public void setKeyController(KeyController keyController) {
-        this.keyController = keyController;
     }
 
 

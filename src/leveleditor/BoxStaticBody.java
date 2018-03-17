@@ -1,8 +1,7 @@
+package leveleditor;
 
 import city.cs.engine.*;
 import org.jbox2d.common.Vec2;
-
-import javax.swing.*;
 
 
 public class BoxStaticBody extends StaticBody{

@@ -74,6 +74,11 @@ public class QuantumLock extends KeyAdapter{
         startLevel(currentLevel);
     }
 
+    public void resetLevel() {
+        goToLevel(2);
+        startLevel(1);
+    }
+
     private void startLevel(int level) {
         gameState = GameState.GAME;
         frame.getContentPane().removeAll();

@@ -19,19 +19,22 @@ import java.util.List;
  * @author pwajn
  */
 public class Level extends World{
-    protected QuantumLock QuantumLock;
+    protected QuantumLock quantumLock;
     protected WorldView view;
     protected PlayerCharacter player;
 
     private List<SlidingDoor> slidingDoors;
 
-    public void initialize(QuantumLock QuantumLock) {
-        this.QuantumLock = QuantumLock;
+    public void initialize(QuantumLock quantumLock) {
+        this.quantumLock = quantumLock;
         slidingDoors = new ArrayList<>();
     }
 
     public void levelComplete() {
-        QuantumLock.nextLevel();
+        quantumLock.nextLevel();
+    }
+    public void levelReset() {
+        quantumLock.resetLevel();
     }
 
     public PlayerCharacter getPlayer(){

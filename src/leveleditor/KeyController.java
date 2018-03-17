@@ -1,9 +1,8 @@
+package leveleditor;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
 import city.cs.engine.UserView;
-import org.jbox2d.common.Vec2;
 
 /**
  *
@@ -11,16 +10,11 @@ import org.jbox2d.common.Vec2;
  */
 public class KeyController extends KeyAdapter{
     private LevelEditor levelEditor;
-    private MouseController mouseController;
     private UserView view;
 
     public KeyController(LevelEditor levelEditor){
         this.levelEditor = levelEditor;
         this.view = levelEditor.view;
-    }
-
-    public void setMouseController(MouseController mouseController) {
-        this.mouseController = mouseController;
     }
 
     @Override

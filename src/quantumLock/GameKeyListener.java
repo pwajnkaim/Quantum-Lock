@@ -8,6 +8,7 @@ package quantumLock;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import org.jbox2d.common.Vec2;
+import quantumLock.Levels.Level;
 
 /**
  *
@@ -40,6 +41,9 @@ public class GameKeyListener extends KeyAdapter{
         }
         if (e.getKeyCode() == KeyEvent.VK_D) { //RIGHT
             player.movingRight = true;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_R) { //Reset Level
+            ((Level)player.getWorld()).levelReset();
         }
     }
 

@@ -69,7 +69,7 @@ public class PlayerCharacter extends Walker implements CollisionListener{
 
     public void grab(){
         for (DynamicBody body : this.getWorld().getDynamicBodies()) {
-            if(!(body instanceof PressureButton)) {
+            if(!(body instanceof WeightButton.Button)) {
                 if (body.intersects(grabArea)) grabbedBody = body;
             }
         }

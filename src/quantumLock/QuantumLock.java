@@ -34,7 +34,7 @@ public class QuantumLock extends KeyAdapter{
         levelList.add(new Level1());
         levelList.add(new Level2());
 
-        frame = new JFrame("Rocket Jumper"); //Make a window with jframe
+        frame = new JFrame("Rocket Jumper"); //Make a window with JFrame
 
         frame.addKeyListener(this);
         frame.setSize(1000, 500);
@@ -78,7 +78,8 @@ public class QuantumLock extends KeyAdapter{
         gameState = GameState.GAME;
         frame.getContentPane().removeAll();
 
-        Level world = levelList.get(currentLevel - 1);
+        System.out.println(level);
+        Level world = levelList.get(level - 1);
         world.initialize(this);
         UserView view = new UserView(world, 1366, 768);
         world.setView(view);
@@ -86,9 +87,9 @@ public class QuantumLock extends KeyAdapter{
         frame.setVisible(true);
 
         //listeners
-        MouseController mouseController = new MouseController(view);
-        view.addMouseListener(mouseController); //mouse listener
-        view.addMouseMotionListener(mouseController); //mouse motion listener
+        GameMouseListener gameMouseListener = new GameMouseListener(view);
+        view.addMouseListener(gameMouseListener); //mouse listener
+        view.addMouseMotionListener(gameMouseListener); //mouse motion listener
         world.addStepListener(new GameStepListener(world.getPlayer())); //step listener
         view.addKeyListener(new GameKeyListener(world.getPlayer())); //key listener
         
@@ -99,7 +100,7 @@ public class QuantumLock extends KeyAdapter{
 
         //debug
         //view.setGridResolution(1);
-        //DebugViewer debugView = new DebugViewer(world, 500, 500);
+        DebugViewer debugView = new DebugViewer(world, 500, 500);
     }
 
     public static void main(String[] args) {

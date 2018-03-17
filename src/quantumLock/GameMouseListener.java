@@ -17,12 +17,12 @@ import quantumLock.Levels.Level;
  *
  * @author pwajn
  */
-public class MouseController extends MouseAdapter{
+public class GameMouseListener extends MouseAdapter{
     
     final private WorldView view;
     final private Level world;
     
-    MouseController(WorldView view) {
+    GameMouseListener(WorldView view) {
         this.view = view;
         this.world = (Level)view.getWorld();
     }

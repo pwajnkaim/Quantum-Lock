@@ -5,36 +5,35 @@
  */
 package quantumLock;
 
-import city.cs.engine.BodyImage;
-import city.cs.engine.BoxShape;
-import city.cs.engine.CollisionEvent;
-import city.cs.engine.CollisionListener;
-import city.cs.engine.SolidFixture;
-import city.cs.engine.StaticBody;
-import city.cs.engine.World;
+import city.cs.engine.*;
 import quantumLock.Levels.Level;
 
 /**
  *
  * @author pwajn
  */
-public class LevelDoor extends StaticBody implements CollisionListener{
+public class LevelDoor extends StaticBody implements SensorListener{
+    Level world;
     public LevelDoor(World world){
         super(world);
+        this.world = (Level)world;
         
-        new SolidFixture(this, new BoxShape(0.9f,1.2f));
+        Sensor sensor = new Sensor(this, new BoxShape(0.9f,1.2f));
         addImage(new BodyImage("sprites/exit.png",2.5f));
         
-        addCollisionListener(this);
+        sensor.addSensorListener(this);
     }
-    
-    
-    
 
     @Override
-    public void collide(CollisionEvent ce) {
-        if(ce.getOtherBody() instanceof PlayerCharacter) {
-            ((Level)ce.getOtherBody().getWorld()).levelComplete(); //finished level
+    public void beginContact(SensorEvent se) {
+        if(se.getContactBody() instanceof PlayerCharacter) {
+            se.getContactBody().destroy(); //strange behaviour if not destroyed
+            world.levelComplete(); //finished level
         }
+    }
+
+    @Override
+    public void endContact(SensorEvent sensorEvent) {
+
     }
 }

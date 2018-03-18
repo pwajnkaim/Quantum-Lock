@@ -8,6 +8,8 @@ package quantumLock.Freeze;
 import city.cs.engine.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+
 import org.jbox2d.common.Vec2;
 
 /**
@@ -19,11 +21,13 @@ public class FrozenBody extends StaticBody{
     private final Class oldClass; //class of the old object
     private final Vec2 oldLinearVel; //old object's LinearVelocity
     private final float oldAngularVel; //old object's AngularVelocity
+    private final List<Object> extraInfo;
     public FrozenBody(World world, DynamicBody oldBody) {
         super(world);
         oldClass = oldBody.getClass();
         oldLinearVel = oldBody.getLinearVelocity();
         oldAngularVel = oldBody.getAngularVelocity();
+        extraInfo = ((Freezable)oldBody).getExtraInfo();
         
         ((Freezable)oldBody).makeFixtures(this);
         this.setPosition(oldBody.getPosition());
@@ -36,6 +40,8 @@ public class FrozenBody extends StaticBody{
             Constructor constructor = oldClass.getConstructor(World.class); //extracting the constructor from a Class object
             Object object = constructor.newInstance(this.getWorld());
             DynamicBody body = (DynamicBody)object;
+            ((Freezable)body).setExtraInfo(extraInfo);
+            ((Freezable) body).makeFixtures(body);
             body.setPosition(this.getPosition());
             body.setLinearVelocity(oldLinearVel);
             body.rotate(this.getAngle());

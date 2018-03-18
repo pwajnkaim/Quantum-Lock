@@ -110,6 +110,7 @@ public class Level1 extends Level{
     @Override
     public void levelReset() {
         //delete everything except for player
+        clearSlodingDoors();
         for (StaticBody body : getStaticBodies()) {
             if(!(body instanceof GrabArea)) body.destroy();
         }

@@ -8,6 +8,8 @@ package quantumLock.Objects;
 import city.cs.engine.*;
 import quantumLock.Freeze.Freezable;
 
+import java.util.List;
+
 /**
  *
  * @author pwajn
@@ -46,6 +48,16 @@ public class Rope extends DynamicBody implements Freezable{
         }
         SolidFixture hingeFixture = new SolidFixture(body, hingeShape, 10);
         hingeFixture.setFriction(0.01f);
+    }
+
+    @Override
+    public List<Object> getExtraInfo() {
+        return null;
+    }
+
+    @Override
+    public void setExtraInfo(List<Object> info) {
+
     }
 
     public float getScale() {

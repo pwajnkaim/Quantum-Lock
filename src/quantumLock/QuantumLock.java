@@ -8,10 +8,8 @@ package quantumLock;
 import quantumLock.Levels.Level1.Level1;
 import quantumLock.Levels.*;
 import city.cs.engine.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.WindowEvent;
+
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
@@ -31,7 +29,7 @@ public class QuantumLock extends KeyAdapter{
     private GameState gameState = GameState.MAINMENU;
     private int currentLevel = 0; //0 = main menu
 
-    private List<Level> levelList = new ArrayList<>();
+    public List<Level> levelList = new ArrayList<>();
 
     private QuantumLock(){
         levelList.add(new Level1());
@@ -48,11 +46,10 @@ public class QuantumLock extends KeyAdapter{
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setUndecorated(true);
         frame.setVisible(true);
-        //frame.
 
         //startMainMenu();
         //newGame();
-        goToLevel(2);
+        goToLevel(3);
     }
 
     public void startMainMenu() {
@@ -79,27 +76,31 @@ public class QuantumLock extends KeyAdapter{
         startLevel(currentLevel);
     }
 
-    public void resetLevel(Level level) {
-        //goToLevel(2);
-        level = null;
-        startLevel(1);
-    }
-
     private void startLevel(int level) {
         gameState = GameState.GAME;
         frame.getContentPane().removeAll();
-
-        Level world = levelList.get(level-1);
-        world.initialize(this);
-
-        if (view==null) {
-            view = new UserView(world, 1366, 768);
-        } else {
-            view.setWorld(world);
-            view.setSize(1366,768);
+        for(KeyListener keyListener : frame.getKeyListeners()) {
+            frame.removeKeyListener(keyListener);
+        }
+        for(MouseListener mouseListener : frame.getMouseListeners()) {
+            frame.removeMouseListener(mouseListener);
+        }
+        for(MouseMotionListener mouseMotionListener : frame.getMouseMotionListeners()) {
+            frame.removeMouseMotionListener(mouseMotionListener);
         }
 
+
+        world = levelList.get(level-1);
+        world.initialize(this);
+
+        //if (view==null) {
+            view = new UserView(world, 1366, 768);
+
+        //}
+
+        //view.setWorld(world);
         world.setView(view);
+        view.setSize(1366,768);
         frame.add(view); //show world in window
         frame.setVisible(true);
 
@@ -116,7 +117,7 @@ public class QuantumLock extends KeyAdapter{
         frame.requestFocus();
 
         //debug
-        view.setGridResolution(1);
+        //view.setGridResolution(1);
         DebugViewer debugView = new DebugViewer(world, 500, 500);
     }
 

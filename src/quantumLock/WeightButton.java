@@ -3,6 +3,8 @@ package quantumLock;
 import city.cs.engine.*;
 import org.jbox2d.common.Vec2;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author pwajn
@@ -10,6 +12,7 @@ import org.jbox2d.common.Vec2;
 public class WeightButton{
     private Button button;
     private Housing housing;
+    private ArrayList<SlidingDoor> doors;
 
     public WeightButton(World world, Vec2 pos) {
         button = new Button(world);
@@ -32,6 +35,7 @@ public class WeightButton{
     }
 
     private void init(World world, Vec2 pos, SlidingDoor door) {
+        doors = new ArrayList<>();
         button.setPosition(pos.sub(new Vec2(0,0.5f))); //button is 0.5 lower than housing
         housing = new Housing(world);
         housing.setPosition(pos);
@@ -63,8 +67,7 @@ public class WeightButton{
     }
 
     public class Housing extends StaticBody implements SensorListener{
-        private SlidingDoor door;
-
+        Sensor sensor;
         private Housing(World world) {
             super(world);
 
@@ -72,26 +75,42 @@ public class WeightButton{
             new SolidFixture(this, new BoxShape(0.1f,0.99f, new Vec2(2.1f,-0.99f)));// Right Wall
 
             new SolidFixture(this, new BoxShape(2.1f,0.1f, new Vec2(0,-1.89f)));// Floor
-            Sensor sensor = new Sensor(this, new BoxShape(2.1f,0.05f, new Vec2(0,-1.79f)));
+            sensor = new Sensor(this, new BoxShape(2.1f,0.05f, new Vec2(0,-1.79f)));
 
             sensor.addSensorListener(this);
         }
 
         @Override
         public void beginContact(SensorEvent se) {
-            if(se.getContactBody() instanceof Button) {
-                if (door != null) door.open();
+            if(se.getContactBody() instanceof Button && se.getContactFixture().getFriction() > 0) {
+                for(SlidingDoor door : doors) {
+                    System.out.println(door);
+                    if (door != null) {
+                        if (door.startClosed) door.open();
+                        else door.close();
+                        return;
+                    }
+                }
             }
         }
         @Override
         public void endContact(SensorEvent se) {
-            if(se.getContactBody() instanceof Button) {
-                if (door != null) door.close();
+            if(se.getContactBody() instanceof Button && se.getContactFixture().getFriction() > 0) {
+                for(SlidingDoor door : doors) {
+                    if (door.startClosed) door.close();
+                    else door.open();
+                    return;
+                }
             }
         }
 
         private void connectToDoor(SlidingDoor slidingDoor) {
-            door = slidingDoor;
+            doors.add(slidingDoor);
+            sensor.removeAllSensorListeners();
+            sensor.addSensorListener(this);
+            for(SlidingDoor door : doors) {
+                System.out.println("added " + door);
+            }
         }
     }
 }

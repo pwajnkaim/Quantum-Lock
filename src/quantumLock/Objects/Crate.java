@@ -9,6 +9,9 @@ import city.cs.engine.*;
 import org.jbox2d.common.Vec2;
 import quantumLock.Freeze.Freezable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author pwajn
@@ -31,15 +34,26 @@ public class Crate extends DynamicBody implements Freezable{
         this.setPosition(pos);
 
     }
-    
+
     public Crate(World world) {
         super(world);
-        makeFixtures(this);
     }
 
     @Override
     public void makeFixtures(Body body) {
         SolidFixture fixture = new SolidFixture(body, new BoxShape(0.5f,0.5f), density);
         fixture.setFriction(6.f);
+    }
+
+    @Override
+    public List<Object> getExtraInfo() {
+        List info = new ArrayList<Object>();
+        info.add(density);
+        return info;
+    }
+
+    @Override
+    public void setExtraInfo(List<Object> info) {
+        density = (Float)info.get(0);
     }
 }

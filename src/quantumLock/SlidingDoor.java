@@ -10,6 +10,7 @@ import org.jbox2d.common.Vec2;
 public class SlidingDoor extends StaticBody{
     private Vec2 openPos;
     private Vec2 closedPos;
+    public boolean startClosed;
     private float slidingSpeed;
     private boolean opening = false;
     private boolean closing = false;
@@ -23,22 +24,25 @@ public class SlidingDoor extends StaticBody{
 
         new SolidFixture(this, shape);
 
-        if(closed) {
+        startClosed = closed;
+        if(startClosed) {
             setPosition(closedPos);
+            close();
         } else {
             setPosition(openPos);
+            open();
         }
     }
     
     public void stayOpen(boolean bool) {
         this.stayOpen = bool;
     }
-    
-    public void open() {
+
+    void open() {
         opening = true;
         closing = false;
     }
-    public void close() {
+    void close() {
         opening = false;
         closing = true;
     }

@@ -4,6 +4,9 @@ import city.cs.engine.*;
 import org.jbox2d.common.Vec2;
 import quantumLock.Freeze.Freezable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Ball extends DynamicBody implements Freezable {
     private float density = 0.5f;
     private CircleShape circleShape;
@@ -42,5 +45,17 @@ public class Ball extends DynamicBody implements Freezable {
     public void makeFixtures(Body body) {
         SolidFixture fixture = new SolidFixture(body, circleShape, density);
         fixture.setFriction(6.f);
+    }
+
+    @Override
+    public List<Object> getExtraInfo() {
+        List info = new ArrayList<Object>();
+        info.add(density);
+        return info;
+    }
+
+    @Override
+    public void setExtraInfo(List<Object> info) {
+        density = (Float)info.get(0);
     }
 }

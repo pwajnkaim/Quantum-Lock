@@ -5,17 +5,12 @@
  */
 package quantumLock.Levels;
 
-import city.cs.engine.DynamicBody;
-import city.cs.engine.StaticBody;
-import city.cs.engine.World;
-import city.cs.engine.WorldView;
+import city.cs.engine.*;
 import org.jbox2d.common.Vec2;
-import quantumLock.GrabArea;
+import quantumLock.*;
 import quantumLock.Levels.Level1.Level1;
-import quantumLock.PlayerCharacter;
-import quantumLock.QuantumLock;
-import quantumLock.SlidingDoor;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +22,7 @@ public class Level extends World{
     protected QuantumLock quantumLock;
     protected WorldView view;
     protected PlayerCharacter player;
+    private StepListener stepListener;
 
     private List<SlidingDoor> slidingDoors = new ArrayList<>();
 
@@ -35,8 +31,7 @@ public class Level extends World{
     }
 
     public void levelComplete() {
-        delete();
-        this.oneStep();
+        clear();
         quantumLock.nextLevel();
     }
 
@@ -64,13 +59,27 @@ public class Level extends World{
         return slidingDoors;
     }
 
-    public void delete() {
+    public void clearSlodingDoors() {
+        slidingDoors.clear();
+    }
+
+    public void clear() {
+        this.removeStepListener(stepListener);
+        player.destroy();
+        player = null;
         for (StaticBody body : getStaticBodies()) {
-            System.out.println(body);
             body.destroy();
+            body = null;
         }
         for (DynamicBody body : getDynamicBodies()) {
             body.destroy();
+            body = null;
         }
+    }
+
+    @Override
+    public void addStepListener(StepListener stepListener) {
+        this.stepListener = stepListener;
+        super.addStepListener(stepListener);
     }
 }

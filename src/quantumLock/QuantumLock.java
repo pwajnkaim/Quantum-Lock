@@ -31,6 +31,11 @@ public class QuantumLock extends KeyAdapter implements ActionListener{
     static private Label levelEndTime = new Label();
     static private JTable levelEndResults;
     static private JButton nextLevelButton = new JButton("Next Level");
+    
+    static private Panel pauseScreen = new Panel();
+    static private JButton resumeButton = new JButton("Resume Game");
+    static private JButton restartButton = new JButton("Restart Level");
+    static private JButton quitButton = new JButton("Quit Game");
 
     @Override
     public void actionPerformed(ActionEvent e) { //next level button was pressed
@@ -48,8 +53,9 @@ public class QuantumLock extends KeyAdapter implements ActionListener{
     public List<Level> levelList = new ArrayList<>();
 
     private QuantumLock(){
-        levelEndPanel.setSize(700,500);
+        levelEndPanel.setSize(600,300);
         levelEndPanel.setVisible(false);
+        levelEndPanel.setBackground(new Color(200,200,200));
         DefaultTableModel model = new DefaultTableModel(new Object[]{"#", "Player", "Time"},10);
         levelEndResults = new JTable(model);
         levelEndMessage.setFont(new Font("endFont", Font.PLAIN, 30));
@@ -60,6 +66,33 @@ public class QuantumLock extends KeyAdapter implements ActionListener{
         levelEndMessage.setVisible(false);
         levelEndResults.setEnabled(false);
         levelEndResults.setVisible(false);
+        
+        pauseScreen.setSize(140,100);
+        pauseScreen.setLayout(new BoxLayout(pauseScreen, BoxLayout.PAGE_AXIS));
+        pauseScreen.addKeyListener(this);
+        pauseScreen.setVisible(false);
+        resumeButton.setEnabled(false);
+        resumeButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                world.resume();
+            }
+        });
+        restartButton.setEnabled(false);
+        restartButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                world.resume();
+                world.levelReset();
+            }
+        });
+        quitButton.setEnabled(false);
+        quitButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+            }
+        });
 
         levelList.add(new Level1());
         levelList.add(new Level2());
@@ -77,7 +110,7 @@ public class QuantumLock extends KeyAdapter implements ActionListener{
         frame.setVisible(true);
 
         startMainMenu();
-        //goToLevel(3);
+        //goToLevel(1);
     }
 
     public void startMainMenu() {
@@ -105,6 +138,10 @@ public class QuantumLock extends KeyAdapter implements ActionListener{
     }
 
     private void startLevel(int level) {
+        if(level >= 4) {
+            frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+        }
+        
         gameState = GameState.GAME;
         frame.getContentPane().removeAll();
 
@@ -136,6 +173,13 @@ public class QuantumLock extends KeyAdapter implements ActionListener{
         levelEndPanel.add(levelEndTime, BorderLayout.CENTER);
         levelEndPanel.add(levelEndResults, BorderLayout.CENTER);
         levelEndPanel.add(nextLevelButton);
+        view.add(pauseScreen);
+        pauseScreen.add(resumeButton);
+        resumeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pauseScreen.add(restartButton);
+        restartButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pauseScreen.add(quitButton);
+        quitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         frame.add(view); //show world in window
         frame.setVisible(true);
@@ -164,7 +208,11 @@ public class QuantumLock extends KeyAdapter implements ActionListener{
     @Override
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) { //quit the game
-            frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+            if (world != null && world.isRunning()) {
+                world.pause();
+            } else if(world != null && !world.isRunning()) {
+                world.resume();
+            }
         }
     }
 
@@ -186,7 +234,7 @@ public class QuantumLock extends KeyAdapter implements ActionListener{
         levelEndResults.setVisible(true);
         nextLevelButton.setEnabled(true);
 
-        levelEndPanel.setLocation(100,200);
+        levelEndPanel.setLocation(350,200);
 
         long seconds = time/1000;
         String secondsS = (seconds<10) ? "0"+seconds : ""+seconds;
@@ -219,5 +267,21 @@ public class QuantumLock extends KeyAdapter implements ActionListener{
         levelEndResults.setVisible(false);
         nextLevelButton.setEnabled(false);
         frame.requestFocus();
+    }
+    
+    public void showPauseMenu() {
+        pauseScreen.setLocation(620, 300);
+        pauseScreen.setVisible(true);
+        resumeButton.setEnabled(true);
+        restartButton.setEnabled(true);
+        quitButton.setEnabled(true);
+    }
+    
+    public void hidePauseMenu() {
+        frame.requestFocus();
+        pauseScreen.setVisible(false);
+        resumeButton.setEnabled(false);
+        restartButton.setEnabled(false);
+        quitButton.setEnabled(false);
     }
 }

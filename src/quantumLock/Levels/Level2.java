@@ -82,6 +82,9 @@ public class Level2 extends Level{
         addSlidingDoor(door0);
 
         WeightButton button0 = new WeightButton(this, new Vec2(112,-19), door0);
+        
+        new TutorialText(this, "sprites/tutorialText/freeze.png", new Vec2(12,10), 7);
+        new TutorialText(this, "sprites/tutorialText/unfreeze.png", new Vec2(30,10), 3);
 
         new Crate(this, new Vec2(13.5f, -4.5f));
         new Crate(this, new Vec2(34.5f, -4.5f));
@@ -148,6 +151,7 @@ public class Level2 extends Level{
     @Override
     public void levelReset() {
         //delete everything except for player
+        clearSlidingDoors();
         for (StaticBody body : getStaticBodies()) {
             if(!(body instanceof GrabArea)) body.destroy();
         }

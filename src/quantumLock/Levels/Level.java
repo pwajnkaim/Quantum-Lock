@@ -6,11 +6,7 @@
 package quantumLock.Levels;
 
 import city.cs.engine.*;
-import org.jbox2d.common.Vec2;
 import quantumLock.*;
-import quantumLock.Levels.Level1.Level1;
-
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +22,7 @@ public class Level extends World{
 
     public long startTime;
     public long currentTime;
+    public long pauseTime;
 
     private List<SlidingDoor> slidingDoors = new ArrayList<>();
 
@@ -64,7 +61,7 @@ public class Level extends World{
         return slidingDoors;
     }
 
-    public void clearSlodingDoors() {
+    public void clearSlidingDoors() {
         slidingDoors.clear();
     }
 
@@ -80,6 +77,18 @@ public class Level extends World{
             body.destroy();
             body = null;
         }
+    }
+    
+    public void pause() {
+        stop();
+        pauseTime = currentTime;
+        quantumLock.showPauseMenu();
+    }
+    
+    public void resume() {
+        start();
+        startTime += currentTime+(currentTime-pauseTime); //make up for paused time
+        quantumLock.hidePauseMenu();
     }
 
     @Override

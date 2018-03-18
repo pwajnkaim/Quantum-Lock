@@ -37,11 +37,6 @@ public class GameKeyListener extends KeyAdapter{
             player.movingLeft = true;
         }
         if (e.getKeyCode() == KeyEvent.VK_S) { //DOWN
-            if (player.getWorld().isRunning()) {
-                player.getWorld().stop();
-            } else {
-                player.getWorld().start();
-            }
         }
         if (e.getKeyCode() == KeyEvent.VK_D) { //RIGHT
             player.movingRight = true;

@@ -8,10 +8,7 @@ package quantumLock.Levels;
 import city.cs.engine.*;
 import org.jbox2d.common.Vec2;
 import quantumLock.*;
-import quantumLock.Objects.Ball;
 import quantumLock.Objects.Crate;
-import quantumLock.Objects.GameKey;
-import quantumLock.Objects.Rope;
 
 /**
  *
@@ -112,6 +109,8 @@ public class Level3 extends Level{
 
         new WeightButton(this, new Vec2(69.0f, -6f), 1, door2);
         new WeightButton(this, new Vec2(57f, 4f), 1, door3);
+        
+        new TutorialText(this, "sprites/tutorialText/velocity.png", new Vec2(55,-10), 5);
 
         new Crate(this, new Vec2(62.0f, -3.5f), 10);
 
@@ -169,6 +168,7 @@ public class Level3 extends Level{
     @Override
     public void levelReset() {
         //delete everything except for player
+        clearSlidingDoors();
         for (StaticBody body : getStaticBodies()) {
             if(!(body instanceof GrabArea)) body.destroy();
         }

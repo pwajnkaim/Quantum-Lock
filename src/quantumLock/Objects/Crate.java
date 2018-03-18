@@ -42,7 +42,9 @@ public class Crate extends DynamicBody implements Freezable{
     @Override
     public void makeFixtures(Body body) {
         SolidFixture fixture = new SolidFixture(body, new BoxShape(0.5f,0.5f), density);
-        fixture.setFriction(6.f);
+        if(body instanceof DynamicBody) {
+            fixture.setFriction(6.f);
+        }
     }
 
     @Override

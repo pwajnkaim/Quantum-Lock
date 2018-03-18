@@ -78,7 +78,7 @@ public class PlayerCharacter extends Walker implements CollisionListener{
     public void throwGrabbed() {
         Vec2 playerPos = this.getPosition();
         Vec2 grabPos = grabArea.getPosition();
-        grabbedBody.applyImpulse((grabPos.sub(playerPos)).mul(grabbedBody.getMass()*5f));
+        grabbedBody.applyImpulse((grabPos.sub(playerPos)).mul(grabbedBody.getMass()*8f));
         grabbedBody = null;
     }
     

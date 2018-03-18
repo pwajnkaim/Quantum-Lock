@@ -156,5 +156,6 @@ public class Level2 extends Level{
         }
         player.setLinearVelocity(new Vec2(0,0));
         levelPopulate();
+        super.levelReset();
     }
 }

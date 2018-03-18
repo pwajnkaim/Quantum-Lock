@@ -84,11 +84,9 @@ public class WeightButton{
         public void beginContact(SensorEvent se) {
             if(se.getContactBody() instanceof Button && se.getContactFixture().getFriction() > 0) {
                 for(SlidingDoor door : doors) {
-                    System.out.println(door);
                     if (door != null) {
                         if (door.startClosed) door.open();
                         else door.close();
-                        return;
                     }
                 }
             }
@@ -97,20 +95,16 @@ public class WeightButton{
         public void endContact(SensorEvent se) {
             if(se.getContactBody() instanceof Button && se.getContactFixture().getFriction() > 0) {
                 for(SlidingDoor door : doors) {
-                    if (door.startClosed) door.close();
-                    else door.open();
-                    return;
+                    if (door != null) {
+                        if (door.startClosed) door.close();
+                        else door.open();
+                    }
                 }
             }
         }
 
         private void connectToDoor(SlidingDoor slidingDoor) {
             doors.add(slidingDoor);
-            sensor.removeAllSensorListeners();
-            sensor.addSensorListener(this);
-            for(SlidingDoor door : doors) {
-                System.out.println("added " + door);
-            }
         }
     }
 }

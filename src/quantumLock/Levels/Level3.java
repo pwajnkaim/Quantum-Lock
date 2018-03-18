@@ -18,7 +18,7 @@ import quantumLock.Objects.Rope;
  * @author pwajn
  */
 public class Level3 extends Level{
-    Vec2 playerInitialPos = new Vec2(4,-3);
+    Vec2 playerInitialPos = new Vec2(3,-3);
 
     @Override
     public void initialize(QuantumLock quantumLock) {
@@ -36,69 +36,84 @@ public class Level3 extends Level{
     public void levelPopulate() {
         player.setPosition(playerInitialPos);
 
+        StaticBody staticBody0 = new StaticBody(this, new BoxShape(4.0f, 1.0f));
+        staticBody0.setPosition(new Vec2(68.0f, 1.0f));
+        StaticBody staticBody1 = new StaticBody(this, new BoxShape(0.5f, 1.5f));
+        staticBody1.setPosition(new Vec2(64.5f, 3.5f));
+        StaticBody staticBody3 = new StaticBody(this, new BoxShape(3.0f, 0.5f));
+        staticBody3.setPosition(new Vec2(69.0f, -10.5f));
+        StaticBody staticBody4 = new StaticBody(this, new BoxShape(0.5f, 2.0f));
+        staticBody4.setPosition(new Vec2(71.5f, -8.0f));
+        StaticBody staticBody5 = new StaticBody(this, new BoxShape(0.5f, 2.0f));
+        staticBody5.setPosition(new Vec2(66.5f, -8.0f));
+        StaticBody staticBody6 = new StaticBody(this, new BoxShape(9.5f, 0.5f));
+        staticBody6.setPosition(new Vec2(81.5f, -6.5f));
+        StaticBody staticBody7 = new StaticBody(this, new BoxShape(7.5f, 0.5f));
+        staticBody7.setPosition(new Vec2(58.5f, -6.5f));
+        StaticBody staticBody16 = new StaticBody(this, new BoxShape(0.5f, 2.5f));
+        staticBody16.setPosition(new Vec2(109.5f, 20.5f));
+        StaticBody staticBody17 = new StaticBody(this, new BoxShape(9.0f, 0.5f));
+        staticBody17.setPosition(new Vec2(101.0f, 23.5f));
+        StaticBody staticBody18 = new StaticBody(this, new BoxShape(10.0f, 0.5f));
+        staticBody18.setPosition(new Vec2(100.0f, 17.5f));
+        StaticBody staticBody19 = new StaticBody(this, new BoxShape(1.0f, 0.5f));
+        staticBody19.setPosition(new Vec2(81.5f, 7.5f));
+        StaticBody staticBody20 = new StaticBody(this, new BoxShape(0.5f, 6.0f));
+        staticBody20.setPosition(new Vec2(91.5f, 29.0f));
+        StaticBody staticBody21 = new StaticBody(this, new BoxShape(45.0f, 0.5f));
+        staticBody21.setPosition(new Vec2(46.0f, 34.5f));
+        StaticBody staticBody22 = new StaticBody(this, new BoxShape(0.5f, 18.0f));
+        staticBody22.setPosition(new Vec2(72.5f, 16.0f));
+        StaticBody staticBody23 = new StaticBody(this, new BoxShape(10.5f, 0.5f));
+        staticBody23.setPosition(new Vec2(61.5f, 9.5f));
+        StaticBody staticBody25 = new StaticBody(this, new BoxShape(0.5f, 12.0f));
+        staticBody25.setPosition(new Vec2(91.5f, 5.0f));
+        StaticBody staticBody26 = new StaticBody(this, new BoxShape(3.0f, 0.5f));
+        staticBody26.setPosition(new Vec2(62.5f, 7.25f));
+        staticBody26.rotate(-0.785398f);
+        StaticBody staticBody27 = new StaticBody(this, new BoxShape(2.0f, 4.0f));
+        staticBody27.setPosition(new Vec2(53.0f, 5.0f));
+        StaticBody staticBody28 = new StaticBody(this, new BoxShape(4.0f, 0.25f));
+        staticBody28.setPosition(new Vec2(55.0f, 0.25f));
+        StaticBody staticBody29 = new StaticBody(this, new BoxShape(16.0f, 0.5f));
+        staticBody29.setPosition(new Vec2(36.0f, -5.5f));
+        StaticBody staticBody31 = new StaticBody(this, new BoxShape(0.5f, 17.5f));
+        staticBody31.setPosition(new Vec2(50.5f, 16.5f));
+        StaticBody staticBody32 = new StaticBody(this, new BoxShape(17.0f, 0.5f));
+        staticBody32.setPosition(new Vec2(18.0f, -0.5f));
+        StaticBody staticBody34 = new StaticBody(this, new BoxShape(0.5f, 18.0f));
+        staticBody34.setPosition(new Vec2(35.5f, 16.0f));
+        StaticBody staticBody35 = new StaticBody(this, new BoxShape(0.5f, 2.5f));
+        staticBody35.setPosition(new Vec2(19.5f, -6.5f));
+        StaticBody staticBody36 = new StaticBody(this, new BoxShape(7.0f, 0.5f));
+        staticBody36.setPosition(new Vec2(7.0f, -5.5f));
+        StaticBody staticBody37 = new StaticBody(this, new BoxShape(0.5f, 20.0f));
+        staticBody37.setPosition(new Vec2(0.5f, 15.0f));
+        StaticBody staticBody38 = new StaticBody(this, new BoxShape(0.5f, 2.0f));
+        staticBody38.setPosition(new Vec2(14.5f, -7.0f));
+        StaticBody staticBody39 = new StaticBody(this, new BoxShape(3.0f, 0.5f));
+        staticBody39.setPosition(new Vec2(17.0f, -9.5f));
+        StaticBody staticBody40 = new StaticBody(this, new BoxShape(2.0f, 0.75f));
+        staticBody40.setPosition(new Vec2(61.5f, -5.25f));
 
-        StaticBody staticBody8 = new StaticBody(this, new BoxShape(0.5f, 2.5f));
-        staticBody8.setPosition(new Vec2(109.5f, 20.5f));
-        StaticBody staticBody9 = new StaticBody(this, new BoxShape(9.0f, 0.5f));
-        staticBody9.setPosition(new Vec2(101.0f, 23.5f));
-        StaticBody staticBody10 = new StaticBody(this, new BoxShape(10.0f, 0.5f));
-        staticBody10.setPosition(new Vec2(100.0f, 17.5f));
-        StaticBody staticBody11 = new StaticBody(this, new BoxShape(1.0f, 0.5f));
-        staticBody11.setPosition(new Vec2(81.5f, 7.5f));
-        StaticBody staticBody12 = new StaticBody(this, new BoxShape(0.5f, 6.0f));
-        staticBody12.setPosition(new Vec2(91.5f, 29.0f));
-        StaticBody staticBody13 = new StaticBody(this, new BoxShape(45.0f, 0.5f));
-        staticBody13.setPosition(new Vec2(46.0f, 34.5f));
-        StaticBody staticBody14 = new StaticBody(this, new BoxShape(0.5f, 18.0f));
-        staticBody14.setPosition(new Vec2(72.5f, 16.0f));
-        StaticBody staticBody15 = new StaticBody(this, new BoxShape(10.5f, 0.5f));
-        staticBody15.setPosition(new Vec2(61.5f, 9.5f));
-        StaticBody staticBody16 = new StaticBody(this, new BoxShape(4.0f, 0.5f));
-        staticBody16.setPosition(new Vec2(68.0f, 0.5f));
-        SlidingDoor door2 = new SlidingDoor(this, new BoxShape(0.25f, 2.0f), new Vec2(72.5f, 0.0f), new Vec2(72.5f, -4.0f), 0.5f, true);
+        SlidingDoor door3 = new SlidingDoor(this, new BoxShape(0.25f, 2.0f), new Vec2(72.5f, 0.0f), new Vec2(72.5f, -4.0f), 0.5f, true);
+        addSlidingDoor(door3);
+        SlidingDoor door2 = new SlidingDoor(this, new BoxShape(2.5f, 0.25f), new Vec2(66.5f, 2.5f), new Vec2(61.5f, 2.5f), 0.5f, true);
         addSlidingDoor(door2);
-        StaticBody staticBody18 = new StaticBody(this, new BoxShape(0.5f, 12.0f));
-        staticBody18.setPosition(new Vec2(91.5f, 5.0f));
-        StaticBody staticBody19 = new StaticBody(this, new BoxShape(20.0f, 0.5f));
-        staticBody19.setPosition(new Vec2(71.0f, -6.5f));
-        StaticBody staticBody20 = new StaticBody(this, new BoxShape(3.0f, 0.5f));
-        staticBody20.setPosition(new Vec2(62.5f, 7.25f));
-        staticBody20.rotate(-0.785398f);
-        StaticBody staticBody21 = new StaticBody(this, new BoxShape(2.0f, 4.0f));
-        staticBody21.setPosition(new Vec2(53.0f, 5.0f));
-        StaticBody staticBody22 = new StaticBody(this, new BoxShape(0.5f, 2.0f));
-        staticBody22.setPosition(new Vec2(64.5f, 3.0f));
-        StaticBody staticBody23 = new StaticBody(this, new BoxShape(4.0f, 0.5f));
-        staticBody23.setPosition(new Vec2(55.0f, 0.5f));
-        StaticBody staticBody24 = new StaticBody(this, new BoxShape(16.0f, 0.5f));
-        staticBody24.setPosition(new Vec2(36.0f, -5.5f));
         SlidingDoor door1 = new SlidingDoor(this, new BoxShape(0.25f, 2.0f), new Vec2(50.5f, 1.0f), new Vec2(50.5f, -3.0f), 0.5f, true);
         addSlidingDoor(door1);
-        StaticBody staticBody26 = new StaticBody(this, new BoxShape(0.5f, 17.5f));
-        staticBody26.setPosition(new Vec2(50.5f, 16.5f));
-        StaticBody staticBody27 = new StaticBody(this, new BoxShape(17.0f, 0.5f));
-        staticBody27.setPosition(new Vec2(18.0f, -0.5f));
         SlidingDoor door0 = new SlidingDoor(this, new BoxShape(0.25f, 1.5f), new Vec2(35.5f, -0.5f), new Vec2(35.5f, -3.5f), 0.5f, false);
         addSlidingDoor(door0);
-        StaticBody staticBody29 = new StaticBody(this, new BoxShape(0.5f, 18.0f));
-        staticBody29.setPosition(new Vec2(35.5f, 16.0f));
-        StaticBody staticBody30 = new StaticBody(this, new BoxShape(0.5f, 2.5f));
-        staticBody30.setPosition(new Vec2(19.5f, -6.5f));
-        StaticBody staticBody31 = new StaticBody(this, new BoxShape(7.0f, 0.5f));
-        staticBody31.setPosition(new Vec2(7.0f, -5.5f));
-        StaticBody staticBody32 = new StaticBody(this, new BoxShape(0.5f, 20.0f));
-        staticBody32.setPosition(new Vec2(0.5f, 15.0f));
-        StaticBody staticBody33 = new StaticBody(this, new BoxShape(0.5f, 2.0f));
-        staticBody33.setPosition(new Vec2(14.5f, -7.0f));
-        StaticBody staticBody34 = new StaticBody(this, new BoxShape(3.0f, 0.5f));
-        staticBody34.setPosition(new Vec2(17.0f, -9.5f));
 
-        WeightButton button0 = new WeightButton(this, new Vec2(17.0f, -5f), 20, door1);
+        WeightButton button0 = new WeightButton(this, new Vec2(17.0f, -5f), 20,  door1);
         button0.connectToDoor(door0);
 
         new Crate(this, new Vec2(9.5f, -4.5f), 60);
 
-        WeightButton button1 = new WeightButton(this, new Vec2(57f, 4f), 20, door2);
+        new WeightButton(this, new Vec2(69.0f, -6f), 1, door2);
+        new WeightButton(this, new Vec2(57f, 4f), 1, door3);
+
+        new Crate(this, new Vec2(62.0f, -3.5f), 10);
 
         new Crate(this, new Vec2(78.0f, -5.5f));
         new Crate(this, new Vec2(90.5f, -5.5f));
@@ -110,7 +125,7 @@ public class Level3 extends Level{
         new Crate(this, new Vec2(75.5f, -5.5f));
 
         LevelDoor exit = new LevelDoor(this);
-        exit.setPosition(new Vec2(132f,-17.8f));
+        exit.setPosition(new Vec2(104f, 19.5f));
 
         /*// Ground
         Body ground = new StaticBody(this, new BoxShape(25, 0.5f));
@@ -162,5 +177,6 @@ public class Level3 extends Level{
         }
         player.setLinearVelocity(new Vec2(0,0));
         levelPopulate();
+        super.levelReset();
     }
 }

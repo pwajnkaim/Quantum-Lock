@@ -36,6 +36,7 @@ public class QuantumLock extends KeyAdapter{
     private QuantumLock(){
         levelList.add(new Level1());
         levelList.add(new Level2());
+        levelList.add(new Level3());
 
         frame = new JFrame("Rocket Jumper"); //Make a window with JFrame
 
@@ -49,8 +50,9 @@ public class QuantumLock extends KeyAdapter{
         frame.setVisible(true);
         //frame.
 
-        startMainMenu();
+        //startMainMenu();
         //newGame();
+        goToLevel(2);
     }
 
     public void startMainMenu() {
@@ -115,7 +117,7 @@ public class QuantumLock extends KeyAdapter{
 
         //debug
         view.setGridResolution(1);
-        //DebugViewer debugView = new DebugViewer(world, 500, 500);
+        DebugViewer debugView = new DebugViewer(world, 500, 500);
     }
 
     public static void main(String[] args) {

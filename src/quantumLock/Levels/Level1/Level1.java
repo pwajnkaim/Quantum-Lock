@@ -19,12 +19,8 @@ import org.jbox2d.common.Vec2;
  * @author pwajn
  */
 public class Level1 extends Level{
-    private final Vec2 playerInitialPos = new Vec2(-16,-3);
-    //private final Vec2 playerInitialPos = new Vec2(100,-13);
-
-    public Level1() {
-
-    }
+    //private final Vec2 playerInitialPos = new Vec2(-16,-3);
+    private final Vec2 playerInitialPos = new Vec2(100,-13);
 
     @Override
     public void initialize(QuantumLock quantumLock) {

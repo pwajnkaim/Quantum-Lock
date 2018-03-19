@@ -87,7 +87,7 @@ public class Level extends World{
     
     public void resume() {
         start();
-        startTime += currentTime+(currentTime-pauseTime); //make up for paused time
+        startTime += ((System.currentTimeMillis()-startTime)-pauseTime); //make up for paused time
         quantumLock.hidePauseMenu();
     }
 

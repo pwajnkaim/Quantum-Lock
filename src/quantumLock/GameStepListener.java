@@ -79,9 +79,7 @@ public class GameStepListener implements StepListener {
     @Override
     public void postStep(StepEvent se) {
         world.currentTime = System.currentTimeMillis() - world.startTime;
-        if (world.isRunning()) {
-            world.quantumLock.updateTimer(world.currentTime);
-        }
+        world.quantumLock.updateTimer(world.currentTime);
     }
     
 }

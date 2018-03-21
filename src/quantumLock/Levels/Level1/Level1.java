@@ -23,17 +23,10 @@ public class Level1 extends Level{
     //private final Vec2 playerInitialPos = new Vec2(100,-13);
 
     @Override
-    public void initialize(QuantumLock quantumLock) {
-        super.initialize(quantumLock);
+    public void initialize() {
+        super.initialize();
 
-        //create player character
-        player = new PlayerCharacter(this);
-        player.setPosition(playerInitialPos);
         player.disableGun();
-
-        //create level bodies
-        levelPopulate();
-
     }
 
     @Override
@@ -105,20 +98,5 @@ public class Level1 extends Level{
 
         LevelDoor exit = new LevelDoor(this);
         exit.setPosition(new Vec2(103f,-13.68f));
-    }
-
-    @Override
-    public void levelReset() {
-        //delete everything except for player
-        clearSlidingDoors();
-        for (StaticBody body : getStaticBodies()) {
-            if(!(body instanceof GrabArea)) body.destroy();
-        }
-        for (DynamicBody body : getDynamicBodies()) {
-            if(!(body instanceof PlayerCharacter)) body.destroy();
-        }
-        player.setLinearVelocity(new Vec2(0,0));
-        levelPopulate();
-        super.levelReset();
     }
 }

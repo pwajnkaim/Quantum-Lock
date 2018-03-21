@@ -6,6 +6,7 @@
 package quantumLock.Levels;
 
 import city.cs.engine.*;
+import org.jbox2d.common.Vec2;
 import quantumLock.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,6 @@ import java.util.List;
  * @author pwajn
  */
 public class Level extends World{
-    public QuantumLock quantumLock;
     protected WorldView view;
     protected PlayerCharacter player;
     private StepListener stepListener;
@@ -26,19 +26,32 @@ public class Level extends World{
 
     private List<SlidingDoor> slidingDoors = new ArrayList<>();
 
-    public void initialize(QuantumLock quantumLock) {
-        this.quantumLock = quantumLock;
+    public void initialize() {
+        //create player character
+        player = new PlayerCharacter(this);
+        //create level bodies
+        levelPopulate();
+        //set start time for timer
         startTime = System.currentTimeMillis();
     }
 
     public void levelComplete() {
         this.stop();
-        quantumLock.showLevelEnd(currentTime);
-        //quantumLock.nextLevel();
+        QuantumLock.showLevelEnd(currentTime);
     }
 
     public void levelReset() {
         startTime = System.currentTimeMillis();
+        //delete everything except for player
+        clearSlidingDoors();
+        for (StaticBody body : getStaticBodies()) {
+            if(!(body instanceof GrabArea)) body.destroy();
+        }
+        for (DynamicBody body : getDynamicBodies()) {
+            if(!(body instanceof PlayerCharacter)) body.destroy();
+        }
+        player.setLinearVelocity(new Vec2(0,0));
+        levelPopulate();
     }
 
     public void levelPopulate() {}
@@ -82,13 +95,11 @@ public class Level extends World{
     public void pause() {
         stop();
         pauseTime = currentTime;
-        quantumLock.showPauseMenu();
     }
     
     public void resume() {
         start();
         startTime += ((System.currentTimeMillis()-startTime)-pauseTime); //make up for paused time
-        quantumLock.hidePauseMenu();
     }
 
     @Override

@@ -18,15 +18,8 @@ public class Level3 extends Level{
     Vec2 playerInitialPos = new Vec2(3,-3);
 
     @Override
-    public void initialize(QuantumLock quantumLock) {
-        super.initialize(quantumLock);
-
-        //create player character
-        player = new PlayerCharacter(this);
-        player.setPosition(playerInitialPos);
-
-        //create level bodies
-        levelPopulate();
+    public void initialize() {
+        super.initialize();
     }
 
     @Override

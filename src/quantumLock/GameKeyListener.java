@@ -59,5 +59,9 @@ public class GameKeyListener extends KeyAdapter{
         if (e.getKeyCode() == KeyEvent.VK_D) { //RIGHT
             player.movingRight = false;
         }
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) { //pause the game
+            if (QuantumLock.isPaused) QuantumLock.resumeGame();
+            else QuantumLock.pauseGame();
+        }
     }
 }

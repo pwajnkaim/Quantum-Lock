@@ -11,6 +11,12 @@ public class Ball extends DynamicBody implements Freezable {
     private float density = 0.5f;
     private CircleShape circleShape;
 
+    public Ball(World world){
+        super(world);
+        this.circleShape = new CircleShape(0.5f);
+        makeFixtures(this);
+    }
+
     public Ball(World world, Vec2 pos){
         super(world);
         this.circleShape = new CircleShape(0.5f);

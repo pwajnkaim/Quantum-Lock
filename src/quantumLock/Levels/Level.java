@@ -37,7 +37,7 @@ public class Level extends World{
 
     public void levelComplete() {
         this.stop();
-        QuantumLock.showLevelEnd(currentTime);
+        QuantumLock.showLevelEnd();
     }
 
     public void levelReset() {

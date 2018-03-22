@@ -7,3 +7,185 @@ make jumping section in Level 3 easier
 slow rotation of held bodies
 
 change jumping to check for ground using sensors
+
+
+package search;
+
+/**
+ * Class of operations on ordered lists of strings.
+ * You should fill in the bodies of these methods.
+ */
+public class Search {
+
+    /**
+     * Returns the index of the longest string in the list.
+     * If there are several string of this length, the
+     * indexed returned is the that of the first.
+     * @param a list of strings, in ascending order
+     * @return position of an entry with the longest string in the list
+     */
+    public int longestWord(StringList a) {
+        // replace the following line with your implementation
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    /**
+     * Returns the number of unique elements in the list
+     * @param a list of strings, in ascending order
+     * @return number of unique elements in the list.
+     */
+    public int countUnique(StringList a) {
+        // replace the following line with your implementation
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    /**
+     * Returns the most commonly occurring string in the list.
+     * If two or more are equally common, return the one that comes earliest.
+     * @param a collection of strings, in ascending order
+     * @return most frequently occurring string
+     */
+    public String mostFrequent(StringList a) {
+        String counting = a.get(0);
+        int amount = 1;
+        String largestS = counting;
+        int largestI = 1;
+        for (int i = 1; i<a.size(); i++) {
+            String current = a.get(i);
+            if(current.equals(counting)) amount++;
+            else {
+                if(amount > largestI) {
+                    largestI = amount;
+                    largestS = counting;
+                }
+                counting = current;
+                amount = 1;
+            }
+        }
+        return largestS;
+    }
+
+    /**
+     * Search for a string in an ordered collection
+     * @param a collection of strings, in ascending order
+     * @param k string to search for
+     * @return position of an element equal to k, if any, otherwise -1
+     */
+    public int findElement(StringList a, String k) {
+        int bottom = 0;
+        int top = a.size()-1;
+        while (bottom <= top) {
+            int mid = (bottom+top)/2;
+            String current = a.get(mid);
+            if (current.equals(k)) return mid;
+            if (current.compareTo(k) < 0) bottom = mid+1;
+            else top = mid-1;
+        }
+        return -1;
+    }
+
+    /**
+     * Position of a string in an ordered collection
+     * @param a collection of strings, in ascending order
+     * @param k string to search for
+     * @return number of strings in the collection a greater than or equal to k
+     */
+    public int countGreaterOrEqual(StringList a, String k) {
+        int bottom = 0;
+        int top = a.size()-1;
+        while (bottom <= top) {
+            int mid = (bottom+top)/2;
+            String current = a.get(mid);
+            if (current.compareTo(k) < 0) bottom = mid+1;
+            else top = mid-1;
+        }
+        return a.size()-bottom;
+    }
+
+    /**
+     * Position after a string in an ordered collection
+     * @param a collection of strings, in ascending order
+     * @param k string to search for
+     * @return number of strings in the collection strictly greater than k
+     */
+    public int countGreater(StringList a, String k) {
+        int bottom = 0;
+        int top = a.size()-1;
+        while (bottom <= top) {
+            int mid = (bottom+top)/2;
+            String current = a.get(mid);
+            if (current.compareTo(k) <= 0) bottom = mid+1;
+            else top = mid-1;
+        }
+        return a.size()-bottom;
+    }
+
+    /**
+     * Determine the size of a range in an ordered collection
+     * @param a collection of strings, in ascending order
+     * @param k1 first string to search for
+     * @param k2 second string to search for (greater than or equal to k1)
+     * @return number of strings between k1 and k2 (inclusive)
+     */
+    public int countBetween(StringList a, String k1, String k2) {
+        /*boolean startCounting = false;
+        boolean stopCounting = false;
+        int count = 0;
+        for (int i = 0; i<a.size(); i++) {
+            String current = a.get(i);
+            if(stopCounting) {
+                System.out.println("why");
+                if (current.equals(k2)) count++;
+                else {
+                    System.out.println("really?");
+                    return count;
+                }
+            } else if (startCounting) {
+                count++;
+                if (current.equals(k2)) {
+                    stopCounting = true;
+                    startCounting = false;
+                }
+            } else if(current.equals(k1)){
+                startCounting = true;
+                count++;
+            }
+        }
+        return count;*/
+        int bottom = 0;
+        int top = a.size()-1;
+        while (bottom <= top) {
+            int mid = (bottom+top)/2;
+            String current = a.get(mid);
+            if (current.compareTo(k1) < 0) bottom = mid+1;
+            else top = mid-1;
+        }
+        int first = bottom;
+
+        bottom = 0;
+        top = a.size()-1;
+        while (bottom <= top) {
+            int mid = (bottom+top)/2;
+            String current = a.get(mid);
+            if (current.compareTo(k2) < 0) bottom = mid+1;
+            else top = mid-1;
+        }
+
+        System.out.println(bottom + "  " + first);
+        return bottom-first;
+
+    }
+
+    /**
+     * Count partial matches in an ordered collection
+     * @param a collection of strings, in ascending order
+     * @param prefix first string to search for
+     * @param substring second string to search for
+     * @return number of strings with both the prefix and the substring
+     */
+    public int countMatches(StringList a, String prefix, String substring) {
+        // replace the following line with your implementation
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+}

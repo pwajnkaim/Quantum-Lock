@@ -1,4 +1,6 @@
-package quantumLock;
+package quantumLock.UI;
+
+import quantumLock.QuantumLock;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,35 +9,21 @@ import java.awt.event.ActionListener;
 
 public class PauseMenu {
     private JButton resumeGameButton;
-    JPanel panel;
+    public JPanel panel;
     private JButton quitGameButton;
     private JButton restartLevelButton;
 
     public PauseMenu() {
         panel.setSize(210, 200);
-        panel.setLocation(620, 300);
         panel.setVisible(false);
         panel.setEnabled(false);
 
-        resumeGameButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                QuantumLock.resumeGame();
-            }
+        resumeGameButton.addActionListener(e -> QuantumLock.resumeGame());
+        restartLevelButton.addActionListener(e -> {
+            QuantumLock.resumeGame();
+            QuantumLock.world.levelReset();
         });
-        restartLevelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                QuantumLock.resumeGame();
-                QuantumLock.world.levelReset();
-            }
-        });
-        quitGameButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                QuantumLock.quitGame();
-            }
-        });
+        quitGameButton.addActionListener(e -> QuantumLock.quitGame());
     }
 
     public void show() {

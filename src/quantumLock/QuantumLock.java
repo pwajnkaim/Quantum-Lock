@@ -5,9 +5,12 @@
  */
 package quantumLock;
 
-import quantumLock.Levels.Level1.Level1;
+import quantumLock.Levels.Level1;
 import quantumLock.Levels.*;
 import city.cs.engine.*;
+import quantumLock.UI.EndLevelMenu;
+import quantumLock.UI.MainMenu;
+import quantumLock.UI.PauseMenu;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -21,51 +24,34 @@ import javax.swing.table.DefaultTableModel;
  * @author pwajn
  */
 public class QuantumLock implements ActionListener{
-    public static final JFrame frame = new JFrame("Quantum Lock");;
+    public static final JFrame frame = new JFrame("Quantum Lock");
     public static Level world;
-    private static UserView view;
 
-    static private JLabel timer;
-    static private JPanel levelEndPanel = new JPanel();
-    static private JLabel levelEndMessage = new JLabel("Well Done, Your Time Was:");
-    static private JLabel levelEndTime = new JLabel();
-    static private JTable levelEndResults;
-    static private JButton nextLevelButton = new JButton("Next Level");
+    private static JLabel timer = new JLabel("00:00:000", SwingConstants.CENTER);
+    private static long overallTime = 0;
 
     private static PauseMenu pauseMenu = new PauseMenu();
     public static boolean isPaused = false;
+
+    private static EndLevelMenu endLevelMenu = new EndLevelMenu();
 
     @Override
     public void actionPerformed(ActionEvent e) { //next level button was pressed
         world.clear();
         nextLevel();
-        hidelevelEnd();
+        hideLevelEnd();
     }
 
     private static int currentLevel = 0; //0 = main menu
 
-    public static List<Level> levelList = new ArrayList<>();
+    private static List<Level> levelList = new ArrayList<>();
 
     private QuantumLock(){
-        levelEndPanel.setSize(600,300);
-        levelEndPanel.setVisible(false);
-        levelEndPanel.setBackground(new Color(200,200,200));
-        DefaultTableModel model = new DefaultTableModel(new Object[]{"#", "Player", "Time"},10);
-        levelEndResults = new JTable(model);
-        levelEndMessage.setFont(new Font("endFont", Font.PLAIN, 30));
-        levelEndTime.setFont(new Font("endFont", Font.PLAIN, 30));
-        nextLevelButton.addActionListener(this);
-
-        levelEndMessage.setEnabled(false);
-        levelEndMessage.setVisible(false);
-        levelEndResults.setEnabled(false);
-        levelEndResults.setVisible(false);
-
         levelList.add(new Level1());
         levelList.add(new Level2());
         levelList.add(new Level3());
 
-        frame.setSize(1000, 500);
+        //frame.setSize(1000, 500);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //close when closed
         frame.setLocationByPlatform(true);
         frame.setResizable(true);
@@ -73,14 +59,25 @@ public class QuantumLock implements ActionListener{
         frame.setUndecorated(true);
         frame.setVisible(true);
 
+        //set large font
+        timer.setFont(new Font("timerFont", Font.PLAIN, 30));
+
+        //position GUI elements based on frame size
+        Rectangle bounds = QuantumLock.frame.getBounds();
+        pauseMenu.panel.setLocation((bounds.width / 2)-pauseMenu.panel.getWidth()/2, (bounds.height / 2)-pauseMenu.panel.getHeight()/2);
+        endLevelMenu.panel.setLocation((bounds.width / 2)-endLevelMenu.panel.getWidth()/2, (bounds.height / 2)-endLevelMenu.panel.getHeight()/2);
+        timer.setSize(timer.getPreferredSize());
+        timer.setLocation((bounds.width / 2)-timer.getWidth()/2,60);
+
         startMainMenu();
         //goToLevel(1);
     }
 
-    public void startMainMenu() {
+    public static void startMainMenu() {
         frame.getContentPane().removeAll();
+        if (world != null) world.clear();
 
-        MainMenu mainMenu = new MainMenu(this);
+        MainMenu mainMenu = new MainMenu();
         frame.add(mainMenu.mainMenu);
         frame.setVisible(true);
     }
@@ -90,16 +87,24 @@ public class QuantumLock implements ActionListener{
     }
 
     public static void newGame(){
+        endLevelMenu.clearResults();
+        overallTime = 0;
+
         currentLevel = 1;
         startLevel();
     }
 
     public static void nextLevel() {
+        world.clear();
+
         currentLevel++;
         startLevel();
     }
 
     public static void goToLevel(int level) {
+        endLevelMenu.clearResults();
+        overallTime = 0;
+
         currentLevel = level;
         startLevel();
     }
@@ -108,8 +113,7 @@ public class QuantumLock implements ActionListener{
         if(currentLevel >= 4) {
             quitGame(); //close game if at level 4
         }
-
-        frame.getContentPane().removeAll();
+        frame.getContentPane().removeAll(); //clear everything
 
         for(KeyListener keyListener : frame.getKeyListeners()) frame.removeKeyListener(keyListener);
         for(MouseListener mouseListener : frame.getMouseListeners()) frame.removeMouseListener(mouseListener);
@@ -118,22 +122,14 @@ public class QuantumLock implements ActionListener{
         world = levelList.get(currentLevel-1);
         world.initialize();
 
-        view = new UserView(world, 1366, 768);
-
+        UserView view = new UserView(world, 1366, 768);
         world.setView(view);
-        view.setSize(1366,768);
-        timer = new JLabel("" + world.currentTime);
-        timer.setFont(new Font("timerFont", Font.PLAIN, 30));
-        timer.setLocation(1000,60);
-        view.add(timer);
-        //view.setLayout(new BorderLayout());
+        //view.setSize(1366,768);
         view.setLayout(null);
-        view.add(levelEndPanel, BorderLayout.CENTER);
-        levelEndPanel.add(levelEndMessage, BorderLayout.NORTH);
-        levelEndPanel.add(levelEndTime, BorderLayout.CENTER);
-        levelEndPanel.add(levelEndResults, BorderLayout.CENTER);
-        levelEndPanel.add(nextLevelButton);
-        view.add(pauseMenu.panel);
+
+        view.add(timer); //timer
+        view.add(pauseMenu.panel); //pause menu
+        view.add(endLevelMenu.panel); //end level screen
 
         frame.add(view); //show world in window
         frame.setVisible(true);
@@ -159,62 +155,50 @@ public class QuantumLock implements ActionListener{
 
     private static String formatTimer(long time) {
         long seconds = time/1000;
-        seconds = seconds%60;
-        String secondsS = (seconds<10) ? "0"+seconds : ""+seconds;
         long minutes = seconds/60;
-        String minutesS = (minutes<10) ? "0"+minutes : ""+minutes;
+        long hours = minutes/60;
+
         time = time%1000;
-        return "" + minutesS + ":" + secondsS + ":" + time;
+        seconds = seconds%60;
+        minutes = minutes%60;
+
+        //add leading zeroes
+        String secondsS = (seconds<10) ? "0"+seconds : ""+seconds;
+        String minutesS = (minutes<10) ? "0"+minutes : ""+minutes;
+        String hoursS = (hours<10) ? "0"+hours : ""+hours;
+
+        if(hours > 0) return hoursS + "" + minutesS + ":" + secondsS + ":" + time;
+        else    return "" + minutesS + ":" + secondsS + ":" + time;
     }
 
     public static void updateTimer(long time) {
         timer.setText(formatTimer(time));
-        timer.setSize(140, 25);
+        timer.setSize(timer.getPreferredSize());
     }
 
-    public static void showLevelEnd(long time) {
-        levelEndPanel.setVisible(true);
-        levelEndMessage.setEnabled(true);
-        levelEndMessage.setVisible(true);
-        levelEndResults.setEnabled(false);
-        levelEndResults.setVisible(true);
-        nextLevelButton.setEnabled(true);
+    public static void showLevelEnd() {
+        endLevelMenu.show();
 
-        levelEndPanel.setLocation(350,200);
+        if(currentLevel+1 >= 4) endLevelMenu.nextLevelButton.setEnabled(false);
 
-        levelEndTime.setText(formatTimer(time));
-        levelEndTime.setLocation(1000,300);
-
-        levelEndMessage.setLocation(1000,200);
-        levelEndResults.setLocation(1000,500);
-
-        nextLevelButton.setLocation(1000, 800);
-
-        DefaultTableModel model = (DefaultTableModel) levelEndResults.getModel();
-        model.addRow(new Object[]{"1", "You", timer.getText()});
-
-        nextLevelButton.requestFocus();
+        overallTime += world.currentTime;
+        endLevelMenu.time.setText("Your Time: " + formatTimer(world.currentTime));
+        DefaultTableModel model = (DefaultTableModel) endLevelMenu.results.getModel();
+        model.addRow(new Object[]{""+currentLevel, timer.getText(), formatTimer(overallTime)});
     }
 
-    public static void hidelevelEnd() {
-        for (int i = 0; i < levelEndResults.getRowCount(); i++) {
-            for(int j = 0; j < levelEndResults.getColumnCount(); j++) {
-                levelEndResults.setValueAt("", i, j);
-            }
-        }
-        levelEndPanel.setVisible(false);
-        levelEndMessage.setEnabled(false);
-        levelEndMessage.setVisible(false);
-        levelEndResults.setVisible(false);
-        nextLevelButton.setEnabled(false);
+    public static void hideLevelEnd() {
+        endLevelMenu.hide();
         frame.requestFocus();
     }
     
     public static void pauseGame() {
-        isPaused = true;
-        world.pause();
-        pauseMenu.show();
-        frame.requestFocus();
+        if(!endLevelMenu.panel.isVisible()) {
+            isPaused = true;
+            world.pause();
+            pauseMenu.show();
+            frame.requestFocus();
+        }
     }
     
     public static void resumeGame() {

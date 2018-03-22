@@ -64,7 +64,7 @@ public class GameMouseListener extends MouseAdapter{
     }
 }
 
-class Particle extends DynamicBody {
+/*class Particle extends DynamicBody {
     
     int duration = 100;
     float density = 1000;
@@ -82,4 +82,4 @@ class Particle extends DynamicBody {
         timer = new Timer(duration, new DestructionTimer(this));
         timer.start();
     }
-}
+}*/

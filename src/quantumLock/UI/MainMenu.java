@@ -1,4 +1,6 @@
-package quantumLock;
+package quantumLock.UI;
+
+import quantumLock.QuantumLock;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,14 +12,11 @@ public class MainMenu {
     private JButton btnLevelSelect;
     private JButton btnContinueGame;
     public JPanel mainMenu;
+    private JButton quitGameButton;
 
-    public MainMenu(QuantumLock QuantumLock) {
-        btnNewGame.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                QuantumLock.newGame();
-            }
-        });
+    public MainMenu() {
+        btnNewGame.addActionListener(e -> QuantumLock.newGame());
+        quitGameButton.addActionListener(e -> QuantumLock.quitGame());
     }
 
     {
@@ -44,21 +43,20 @@ public class MainMenu {
         btnLevelSelect.setText("Level Select");
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
-        gbc.gridx = 1;
+        gbc.gridx = 2;
         gbc.gridy = 7;
         gbc.weightx = 0.2;
-        gbc.weighty = 0.1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         mainMenu.add(btnLevelSelect, gbc);
         final JPanel spacer1 = new JPanel();
         gbc = new GridBagConstraints();
-        gbc.gridx = 1;
+        gbc.gridx = 2;
         gbc.gridy = 0;
         gbc.weighty = 0.1;
         gbc.fill = GridBagConstraints.VERTICAL;
         mainMenu.add(spacer1, gbc);
         final JLabel label1 = new JLabel();
-        Font label1Font = this.$$$getFont$$$(null, -1, 36, label1.getFont());
+        Font label1Font = this.$$$getFont$$$(null, -1, 48, label1.getFont());
         if (label1Font != null) label1.setFont(label1Font);
         label1.setHorizontalAlignment(0);
         label1.setHorizontalTextPosition(0);
@@ -66,25 +64,26 @@ public class MainMenu {
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 1;
+        gbc.gridwidth = 3;
         gbc.weighty = 0.2;
         mainMenu.add(label1, gbc);
         final JPanel spacer2 = new JPanel();
         gbc = new GridBagConstraints();
-        gbc.gridx = 1;
+        gbc.gridx = 2;
         gbc.gridy = 2;
-        gbc.weighty = 0.1;
+        gbc.weighty = 0.06;
         gbc.fill = GridBagConstraints.VERTICAL;
         mainMenu.add(spacer2, gbc);
         final JPanel spacer3 = new JPanel();
         gbc = new GridBagConstraints();
-        gbc.gridx = 0;
+        gbc.gridx = 1;
         gbc.gridy = 3;
         gbc.weightx = 0.4;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         mainMenu.add(spacer3, gbc);
         final JPanel spacer4 = new JPanel();
         gbc = new GridBagConstraints();
-        gbc.gridx = 2;
+        gbc.gridx = 3;
         gbc.gridy = 3;
         gbc.weightx = 0.4;
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -94,17 +93,16 @@ public class MainMenu {
         if (btnNewGameFont != null) btnNewGame.setFont(btnNewGameFont);
         btnNewGame.setText("New Game");
         gbc = new GridBagConstraints();
-        gbc.gridx = 1;
+        gbc.gridx = 2;
         gbc.gridy = 3;
         gbc.weightx = 0.2;
-        gbc.weighty = 0.1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         mainMenu.add(btnNewGame, gbc);
         final JPanel spacer5 = new JPanel();
         gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 8;
-        gbc.weighty = 0.2;
+        gbc.gridx = 2;
+        gbc.gridy = 10;
+        gbc.weighty = 0.3;
         gbc.fill = GridBagConstraints.VERTICAL;
         mainMenu.add(spacer5, gbc);
         btnContinueGame = new JButton();
@@ -113,26 +111,55 @@ public class MainMenu {
         if (btnContinueGameFont != null) btnContinueGame.setFont(btnContinueGameFont);
         btnContinueGame.setText("Continue Game");
         gbc = new GridBagConstraints();
-        gbc.gridx = 1;
+        gbc.gridx = 2;
         gbc.gridy = 5;
         gbc.weightx = 0.2;
-        gbc.weighty = 0.1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         mainMenu.add(btnContinueGame, gbc);
         final JPanel spacer6 = new JPanel();
         gbc = new GridBagConstraints();
-        gbc.gridx = 1;
+        gbc.gridx = 2;
         gbc.gridy = 6;
         gbc.weighty = 0.05;
         gbc.fill = GridBagConstraints.VERTICAL;
         mainMenu.add(spacer6, gbc);
         final JPanel spacer7 = new JPanel();
         gbc = new GridBagConstraints();
-        gbc.gridx = 1;
+        gbc.gridx = 2;
         gbc.gridy = 4;
         gbc.weighty = 0.05;
         gbc.fill = GridBagConstraints.VERTICAL;
         mainMenu.add(spacer7, gbc);
+        quitGameButton = new JButton();
+        Font quitGameButtonFont = this.$$$getFont$$$(null, -1, 20, quitGameButton.getFont());
+        if (quitGameButtonFont != null) quitGameButton.setFont(quitGameButtonFont);
+        quitGameButton.setText("Quit Game");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 9;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        mainMenu.add(quitGameButton, gbc);
+        final JPanel spacer8 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 4;
+        gbc.gridy = 1;
+        gbc.weightx = 0.1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        mainMenu.add(spacer8, gbc);
+        final JPanel spacer9 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weightx = 0.1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        mainMenu.add(spacer9, gbc);
+        final JPanel spacer10 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 8;
+        gbc.weighty = 0.05;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        mainMenu.add(spacer10, gbc);
     }
 
     /**

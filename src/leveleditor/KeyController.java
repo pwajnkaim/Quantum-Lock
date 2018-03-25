@@ -3,6 +3,7 @@ package leveleditor;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import city.cs.engine.UserView;
+import leveleditor.bodies.BoxStaticBody;
 
 /**
  *

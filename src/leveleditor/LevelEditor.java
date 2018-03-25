@@ -1,34 +1,55 @@
 package leveleditor;
 
 import city.cs.engine.*;
+import leveleditor.bodies.BoxStaticBody;
 import org.jbox2d.common.Vec2;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
+import java.io.File;
 
 public class LevelEditor {
     public boolean movingUp, movingDown, movingLeft, movingRight;
     public World world;
     public UserView view;
+    private ControlPanel controlPanel;
 
     private LevelEditor() {
         JFrame frame = new JFrame("Level Editor");
 
-        frame.setSize(1000, 500);
+        //frame.setSize(1200, 900);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //close when closed
         frame.setLocationByPlatform(true);
         frame.setResizable(true);
-        frame.setVisible(true);
+        frame.setLayout(new BorderLayout());
 
         world = new World();
-        view = new UserView(world, 1000, 500);
-        frame.add(view); //show world in window
+        view = new UserView(world, 1200, 620);
+        frame.add(view, BorderLayout.CENTER); //show world in window
         frame.pack();
+
+        /*JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+        int result = fileChooser.showOpenDialog(frame);
+        System.out.println("done");
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+        }*/
 
         makeBodies();
 
         MouseController mouseController = new MouseController(view);
         KeyController keyController = new KeyController(this);
 
+        controlPanel = new ControlPanel(mouseController);
+        mouseController.setControlPanel(controlPanel);
+        JScrollPane scrollPane = new JScrollPane(controlPanel.panel);
+        frame.add(scrollPane, BorderLayout.WEST);
+        MenuBar menuBar = new MenuBar();
+        frame.add(menuBar, BorderLayout.NORTH);
+        //view.validate();
         view.addMouseListener(mouseController);
         view.addMouseMotionListener(mouseController);
         view.addMouseWheelListener(mouseController);
@@ -36,6 +57,7 @@ public class LevelEditor {
         world.addStepListener(new EditorStepListener(this, view));
 
         view.setGridResolution(1);
+        frame.setVisible(true);
         world.start();
     }
 

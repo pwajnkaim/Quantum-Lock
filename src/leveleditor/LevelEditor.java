@@ -29,15 +29,6 @@ public class LevelEditor {
         frame.add(view, BorderLayout.CENTER); //show world in window
         frame.pack();
 
-        /*JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-        int result = fileChooser.showOpenDialog(frame);
-        System.out.println("done");
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-            System.out.println("Selected file: " + selectedFile.getAbsolutePath());
-        }*/
-
         makeBodies();
 
         MouseController mouseController = new MouseController(view);
@@ -47,7 +38,7 @@ public class LevelEditor {
         mouseController.setControlPanel(controlPanel);
         JScrollPane scrollPane = new JScrollPane(controlPanel.panel);
         frame.add(scrollPane, BorderLayout.WEST);
-        MenuBar menuBar = new MenuBar();
+        MenuBar menuBar = new MenuBar(frame);
         frame.add(menuBar, BorderLayout.NORTH);
         //view.validate();
         view.addMouseListener(mouseController);

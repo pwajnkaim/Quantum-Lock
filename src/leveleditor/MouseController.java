@@ -2,12 +2,13 @@ package leveleditor;
 
 import city.cs.engine.*;
 import java.awt.event.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 import leveleditor.bodies.BoxStaticBody;
 import leveleditor.bodies.FakeBody;
 import leveleditor.bodies.SlidingDoor;
 import org.jbox2d.common.Vec2;
-import javax.swing.*;
 
 /**
  *
@@ -90,8 +91,20 @@ public class MouseController extends MouseAdapter{
 
     private void select(Body body) {
         selected = (FakeBody)body;
-        if (body instanceof BoxStaticBody) controlPanel.staticBoxSelected((BoxStaticBody)body);
+        if (body instanceof BoxStaticBody) controlPanel.boxStaticSelected((BoxStaticBody)body);
         else if (body instanceof SlidingDoor) controlPanel.slidingDoorSelected((SlidingDoor)body);
+    }
+
+    public void newBody(Class<?> bodyClass) {
+        try {
+            Constructor<?> constructor = bodyClass.getConstructor(World.class);
+            Object obj = constructor.newInstance(view.getWorld());
+            FakeBody body = (FakeBody)obj;
+            body.setName("boxStaticBody"+0);
+            body.setPosition(view.getCentre());
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 
     public void newBoxStaticBody() {

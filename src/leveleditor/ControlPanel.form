@@ -125,15 +125,7 @@
               <gridbag weightx="0.0" weighty="0.0"/>
             </constraints>
             <properties>
-              <model>
-                <item value="StaticBoxShape"/>
-                <item value="StaticCircleShape"/>
-                <item value="SlidingDoor"/>
-                <item value="Button"/>
-                <item value="Crate"/>
-                <item value="Ball"/>
-                <item value="LevelExit"/>
-              </model>
+              <model/>
             </properties>
           </component>
           <component id="4171e" class="javax.swing.JLabel">

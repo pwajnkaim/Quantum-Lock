@@ -16,12 +16,27 @@ public class SlidingDoor extends FakeBody {
         super(world);
         new SolidFixture(this, new BoxShape(0.25f,1f));
         size = new Vec2(0.25f,1f);
+        closedPos = this.getPosition();
+        openPos = this.getPosition();
     }
 
     public SlidingDoor(World world, Vec2 size) {
         super(world);
         new SolidFixture(this, new BoxShape(size.x,size.y));
         this.size = size;
+        closedPos = this.getPosition();
+        openPos = this.getPosition();
+    }
+
+    @Override
+    public void setPosition(Vec2 position) {
+        super.setPosition(position);
+        updatePositions();
+    }
+
+    public void updatePositions() {
+        if(startOpen) openPos = getPosition();
+        else closedPos = getPosition();
     }
 
     public Vec2 getOpenPos() {

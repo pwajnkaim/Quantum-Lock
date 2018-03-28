@@ -7,16 +7,20 @@ import org.jbox2d.common.Vec2;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.io.File;
 
 public class LevelEditor {
-    public boolean movingUp, movingDown, movingLeft, movingRight;
+    public static boolean movingUp, movingDown, movingLeft, movingRight;
     public World world;
-    public UserView view;
-    private ControlPanel controlPanel;
+    public static UserView view;
+    public static ControlPanel controlPanel = new ControlPanel();
+    public static MouseController mouseController;
+    public static MenuBar menuBar;
+    public static JFrame frame;
 
     private LevelEditor() {
-        JFrame frame = new JFrame("Level Editor");
+        frame = new JFrame("Level Editor");
 
         //frame.setSize(1200, 900);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //close when closed
@@ -31,21 +35,26 @@ public class LevelEditor {
 
         makeBodies();
 
-        MouseController mouseController = new MouseController(view);
-        KeyController keyController = new KeyController(this);
+        mouseController = new MouseController(view);
 
-        controlPanel = new ControlPanel(mouseController);
-        mouseController.setControlPanel(controlPanel);
         JScrollPane scrollPane = new JScrollPane(controlPanel.panel);
         frame.add(scrollPane, BorderLayout.WEST);
-        MenuBar menuBar = new MenuBar(frame);
+        menuBar = new MenuBar();
         frame.add(menuBar, BorderLayout.NORTH);
         //view.validate();
+
         view.addMouseListener(mouseController);
         view.addMouseMotionListener(mouseController);
         view.addMouseWheelListener(mouseController);
-        view.addKeyListener(keyController);
-        world.addStepListener(new EditorStepListener(this, view));
+        world.addStepListener(new EditorStepListener());
+        KeyController keyController = new KeyController();
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
+            @Override
+            public boolean dispatchKeyEvent(KeyEvent e) {
+                keyController.handleInput(e);
+                return false;
+            }
+        });
 
         view.setGridResolution(1);
         frame.setVisible(true);

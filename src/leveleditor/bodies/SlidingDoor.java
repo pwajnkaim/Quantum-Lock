@@ -71,7 +71,7 @@ public class SlidingDoor extends FakeBody {
     }
 
     @Override
-    public void setSize(Vec2 size) {
+    public FakeBody setSize(Vec2 size) {
         SlidingDoor newBody = new SlidingDoor(this.getWorld(),size);
         newBody.setName(this.getName());
         newBody.setPosition(this.getPosition());
@@ -82,5 +82,11 @@ public class SlidingDoor extends FakeBody {
         newBody.setStartOpen(startOpen);
         newBody.setStayOpen(stayOpen);
         this.destroy();
+        return newBody;
+    }
+
+    @Override
+    public String toString() {
+        return "SlidingDoor";
     }
 }

@@ -5,9 +5,7 @@ import java.awt.event.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import leveleditor.bodies.BoxStaticBody;
-import leveleditor.bodies.FakeBody;
-import leveleditor.bodies.SlidingDoor;
+import leveleditor.bodies.*;
 import org.jbox2d.common.Vec2;
 
 /**
@@ -16,7 +14,6 @@ import org.jbox2d.common.Vec2;
  */
 public class MouseController extends MouseAdapter{
     final public WorldView view;
-    private ControlPanel controlPanel;
 
     private Body holding = null;
     public FakeBody selected = null;
@@ -28,16 +25,11 @@ public class MouseController extends MouseAdapter{
         this.view = view;
     }
 
-    public void setControlPanel(ControlPanel controlPanel) {
-        this.controlPanel = controlPanel;
-    }
-
     @Override
     public void mousePressed(MouseEvent e) {
-
         Vec2 mousePos = view.viewToWorld(e.getPoint());
-
         offset = mousePos;
+
         for (StaticBody body : view.getWorld().getStaticBodies()) {
             if(body.contains(mousePos)){ //if mouse clicked on a body
                 clickedOnBody = true;
@@ -46,9 +38,6 @@ public class MouseController extends MouseAdapter{
                     holdingOffset = holding.getPosition().sub(mousePos);
                 } else if(e.getButton() == 3) {// right click
                     select(body);
-                    if (selected instanceof BoxStaticBody) {
-
-                    }
                 }
                 break;
             }
@@ -59,7 +48,6 @@ public class MouseController extends MouseAdapter{
     @Override
     public void mouseReleased(MouseEvent e) {
         if (holding != null) {
-            //System.out.println(holding.getPosition());
             Vec2 roundedPos = holding.getPosition();
             roundedPos.x = Math.round(roundedPos.x*2)/2.f; //round to nearest multiple of 5
             roundedPos.y = Math.round(roundedPos.y*2)/2.f;
@@ -89,10 +77,17 @@ public class MouseController extends MouseAdapter{
         }
     }
 
-    private void select(Body body) {
+    public void select(Body body) {
         selected = (FakeBody)body;
-        if (body instanceof BoxStaticBody) controlPanel.boxStaticSelected((BoxStaticBody)body);
-        else if (body instanceof SlidingDoor) controlPanel.slidingDoorSelected((SlidingDoor)body);
+        System.out.println("level editor"+LevelEditor.controlPanel);
+        if (body instanceof BoxStaticBody) LevelEditor.controlPanel.boxStaticSelected((BoxStaticBody)body);
+        else if (body instanceof CircleStaticBody) LevelEditor.controlPanel.circleStaticSelected((CircleStaticBody)body);
+        else if (body instanceof SlidingDoor) LevelEditor.controlPanel.slidingDoorSelected((SlidingDoor)body);
+        else if (body instanceof Crate) LevelEditor.controlPanel.crateSelected((Crate)body);
+        else if (body instanceof Ball) LevelEditor.controlPanel.ballSelected((Ball)body);
+        else if (body instanceof Button) LevelEditor.controlPanel.buttonSelected((Button)body);
+        else if (body instanceof Exit) LevelEditor.controlPanel.exitSelected((Exit)body);
+        else if (body instanceof Player) LevelEditor.controlPanel.playerSelected((Player)body);
     }
 
     public void newBody(Class<?> bodyClass) {
@@ -100,32 +95,15 @@ public class MouseController extends MouseAdapter{
             Constructor<?> constructor = bodyClass.getConstructor(World.class);
             Object obj = constructor.newInstance(view.getWorld());
             FakeBody body = (FakeBody)obj;
-            body.setName("boxStaticBody"+0);
+            int count = 0;
+            for (StaticBody instance : view.getWorld().getStaticBodies()) {
+                if (bodyClass.isInstance(instance)) count++;
+            }
+            body.setName(body.toString()+count);
             body.setPosition(view.getCentre());
+            select(body);
         } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
             e.printStackTrace();
         }
-    }
-
-    public void newBoxStaticBody() {
-        BoxStaticBody boxStaticBody = new BoxStaticBody(view.getWorld());
-        int count = 0;
-        for (StaticBody body : view.getWorld().getStaticBodies()) {
-            if (body instanceof BoxStaticBody) count++;
-        }
-        boxStaticBody.setName("boxStaticBody"+count);
-        boxStaticBody.setPosition(view.getCentre());
-        select(boxStaticBody);
-    }
-
-    public void newSlidingDoor() {
-        SlidingDoor slidingDoor = new SlidingDoor(view.getWorld());
-        int count = 0;
-        for (StaticBody body : view.getWorld().getStaticBodies()) {
-            if (body instanceof SlidingDoor) count++;
-        }
-        slidingDoor.setName("slidingDoor"+count);
-        slidingDoor.setPosition(view.getCentre());
-        select(slidingDoor);
     }
 }

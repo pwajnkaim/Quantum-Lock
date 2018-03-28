@@ -15,5 +15,7 @@ public abstract class FakeBody extends StaticBody{
         return size;
     }
 
-    public void setSize(Vec2 size) {}
+    public FakeBody setSize(Vec2 size) {
+        return null;
+    }
 }

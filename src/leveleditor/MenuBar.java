@@ -4,15 +4,13 @@ import javax.swing.*;
 import java.io.File;
 
 public class MenuBar extends JMenuBar{
-    JFrame frame;
-    public MenuBar(JFrame frame) {
-        this.frame = frame;
+    public MenuBar() {
         JMenu fileMenu = new JMenu("File");
         JMenuItem newMap = new JMenuItem("New");
         newMap.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-            int result = fileChooser.showOpenDialog(frame);
+            int result = fileChooser.showOpenDialog(LevelEditor.frame);
             if (result == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
                 System.out.println("Selected file: " + selectedFile.getAbsolutePath());
@@ -31,5 +29,9 @@ public class MenuBar extends JMenuBar{
         fileMenu.add(saveAsMap);
 
         this.add(fileMenu);
+    }
+
+    public void save() {
+        System.out.println("cool");
     }
 }

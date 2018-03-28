@@ -6,7 +6,7 @@ import city.cs.engine.SolidFixture;
 import city.cs.engine.World;
 import org.jbox2d.common.Vec2;
 
-public class Ball extends FakeBody {
+public class Ball extends FakeBody implements Dynamic{
     private float density = 20;
     public Ball(World world) {
         super(world);
@@ -28,12 +28,18 @@ public class Ball extends FakeBody {
     }
 
     @Override
-    public void setSize(Vec2 size) {
+    public FakeBody setSize(Vec2 size) {
         Ball ball = new Ball(this.getWorld(),size);
         ball.setName(this.getName());
         ball.setPosition(this.getPosition());
         ball.setAngle(this.getAngle());
         ball.setDensity(density);
         this.destroy();
+        return ball;
+    }
+
+    @Override
+    public String toString() {
+        return "Ball";
     }
 }

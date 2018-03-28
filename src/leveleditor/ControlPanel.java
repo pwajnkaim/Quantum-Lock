@@ -1,19 +1,14 @@
 package leveleditor;
 
-import leveleditor.bodies.BoxStaticBody;
-import leveleditor.bodies.CircleStaticBody;
-import leveleditor.bodies.FakeBody;
-import leveleditor.bodies.SlidingDoor;
+import city.cs.engine.UserView;
+import leveleditor.bodies.*;
+import leveleditor.bodies.Button;
 import org.jbox2d.common.Vec2;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class ControlPanel {
-    private final MouseController mouseController;
-
     private JTextField xPositionTF;
     private JTextField yPositionTF;
     private JComboBox newBodySelector;
@@ -35,13 +30,14 @@ public class ControlPanel {
     private JLabel selected;
     private JTextField nameTF;
     private JButton deleteButton;
+    private JPanel dynamic;
+    private JTextField densityTF;
 
     private CardLayout cardLayout;
 
-    public ControlPanel(MouseController mouseController) {
+    public ControlPanel() {
         cardLayout = (CardLayout) extraOptions.getLayout();
         clearAll();
-        this.mouseController = mouseController;
 
         newBodySelector.addItem(new Object() {
             @Override
@@ -67,11 +63,35 @@ public class ControlPanel {
                 return "Crate";
             }
         });
+        newBodySelector.addItem(new Object() {
+            @Override
+            public String toString() {
+                return "Ball";
+            }
+        });
+        newBodySelector.addItem(new Object() {
+            @Override
+            public String toString() {
+                return "Button";
+            }
+        });
+        newBodySelector.addItem(new Object() {
+            @Override
+            public String toString() {
+                return "Exit";
+            }
+        });
+        newBodySelector.addItem(new Object() {
+            @Override
+            public String toString() {
+                return "Player";
+            }
+        });
 
         //Basic
         nameTF.addActionListener(e -> { //change name
-            if (mouseController.selected != null) mouseController.selected.setName(nameTF.getText());
-            mouseController.view.requestFocus();
+            if (controller().selected != null) controller().selected.setName(nameTF.getText());
+            controller().view.requestFocus();
         });
         xPositionTF.addActionListener(e -> { //change X position
             changePosition();
@@ -86,61 +106,141 @@ public class ControlPanel {
             changeSize();
         });
         rotationTF.addActionListener(e -> { //change rotation
-            if (mouseController.selected != null)
-                mouseController.selected.setAngle(Float.parseFloat(rotationTF.getText()));
-            mouseController.view.requestFocus();
+            if (controller().selected != null)
+                controller().selected.setAngle(Float.parseFloat(rotationTF.getText()));
+            controller().view.requestFocus();
         });
         deleteButton.addActionListener(e -> { //delete object
-            if (mouseController.selected != null) {
-                mouseController.selected.destroy();
-                mouseController.selected = null;
+            if (controller().selected != null) {
+                controller().selected.destroy();
+                controller().selected = null;
             }
             clearAll();
         });
         //SlidingDoor
+        xOpenPosTF.addActionListener(e -> {
+            changeOpenPosition();
+        });
+        yOpenPosTF.addActionListener(e -> {
+            changeOpenPosition();
+        });
+        xClosedPosTF.addActionListener(e -> {
+            changeClosedPosition();
+        });
+        yClosedPosTF.addActionListener(e -> {
+            changeClosedPosition();
+        });
         stayOpenCheckBox.addActionListener(e -> {
-            if (mouseController.selected != null)
-                ((SlidingDoor) mouseController.selected).setStayOpen(stayOpenCheckBox.isSelected());
-            mouseController.view.requestFocus();
+            if (controller().selected != null)
+                ((SlidingDoor) controller().selected).setStayOpen(stayOpenCheckBox.isSelected());
+            controller().view.requestFocus();
         });
         startOpenCheckBox.addActionListener(e -> {
-            if (mouseController.selected != null) {
-                SlidingDoor door = (SlidingDoor) mouseController.selected;
+            if (controller().selected != null) {
+                SlidingDoor door = (SlidingDoor) controller().selected;
                 door.setStartOpen(startOpenCheckBox.isSelected());
                 if (door.isStartOpen()) door.setPosition(door.getOpenPos());
                 else door.setPosition(door.getClosedPos());
                 slidingDoorSelected(door);
             }
-            mouseController.view.requestFocus();
+            controller().view.requestFocus();
+        });
+        //dynamic
+        densityTF.addActionListener(e -> {
+            try {
+                if (controller().selected != null)
+                    ((Dynamic) controller().selected).setDensity(Float.parseFloat(densityTF.getText()));
+            } catch (NumberFormatException nfe) {
+                JOptionPane.showMessageDialog(panel, "Invalid Number", "Warning", JOptionPane.ERROR_MESSAGE);
+            }
+            controller().view.requestFocus();
         });
         //other
         createNewBodyButton.addActionListener(e -> {
             String bodyType = newBodySelector.getSelectedItem().toString();
             if (bodyType.equals("BoxStaticBody")) {
-                mouseController.newBody(BoxStaticBody.class);
+                controller().newBody(BoxStaticBody.class);
             } else if (bodyType.equals("CircleStaticBody")) {
-                mouseController.newBody(CircleStaticBody.class);
+                controller().newBody(CircleStaticBody.class);
             } else if (bodyType.equals("SlidingDoor")) {
-                mouseController.newBody(SlidingDoor.class);
+                controller().newBody(SlidingDoor.class);
+            } else if (bodyType.equals("Crate")) {
+                controller().newBody(Crate.class);
+            } else if (bodyType.equals("Ball")) {
+                controller().newBody(Ball.class);
+            } else if (bodyType.equals("Button")) {
+                controller().newBody(Button.class);
+            } else if (bodyType.equals("Exit")) {
+                controller().newBody(Exit.class);
+            } else if (bodyType.equals("Player")) {
+                controller().newBody(Player.class);
             }
         });
     }
+    private MouseController controller() { //get mouse controller
+        return LevelEditor.mouseController;
+    }
 
     private void changePosition() {
-        FakeBody body = mouseController.selected;
-        if (body != null) {
-            // move body
-            body.setPosition(new Vec2(Float.parseFloat(xPositionTF.getText()), Float.parseFloat(yPositionTF.getText())));
-            // update door's closed/open position
-            if (body instanceof SlidingDoor)
-                slidingDoorSelected((SlidingDoor) body);
+        FakeBody body = controller().selected;
+        try {
+            if (body != null) {
+                // move body
+                body.setPosition(new Vec2(Float.parseFloat(xPositionTF.getText()), Float.parseFloat(yPositionTF.getText())));
+                // update door's closed/open position
+                if (body instanceof SlidingDoor)
+                    slidingDoorSelected((SlidingDoor) body);
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(panel, "Invalid Position", "Warning", JOptionPane.ERROR_MESSAGE);
         }
-        mouseController.view.requestFocus();
+        controller().view.requestFocus();
     }
+
     private void changeSize() {
-        if (mouseController.selected != null)
-            mouseController.selected.setSize(new Vec2(Float.parseFloat(widthTF.getText()), Float.parseFloat(heightTF.getText())));
-        mouseController.view.requestFocus();
+        try {
+            if (controller().selected != null) {
+                if (controller().selected instanceof CircleStaticBody)
+                    controller().select(controller().selected.setSize(new Vec2(Float.parseFloat(widthTF.getText()), 0)));
+                else
+                    controller().select(controller().selected.setSize(new Vec2(Float.parseFloat(widthTF.getText()), Float.parseFloat(heightTF.getText()))));
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(panel, "Invalid Size", "Warning", JOptionPane.ERROR_MESSAGE);
+        }
+        controller().view.requestFocus();
+    }
+
+    private void changeOpenPosition() {
+        SlidingDoor body = (SlidingDoor) controller().selected;
+        try {
+            if (body != null) {
+                body.setOpenPos(new Vec2(Float.parseFloat(xOpenPosTF.getText()), Float.parseFloat(yOpenPosTF.getText())));
+                if (body.isStartOpen()) {
+                    body.setPosition(body.getOpenPos());
+                    slidingDoorSelected(body);
+                }
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(panel, "Invalid Position", "Warning", JOptionPane.ERROR_MESSAGE);
+        }
+        controller().view.requestFocus();
+    }
+
+    private void changeClosedPosition() {
+        SlidingDoor body = (SlidingDoor) controller().selected;
+        try {
+            if (body != null) {
+                body.setClosedPos(new Vec2(Float.parseFloat(xClosedPosTF.getText()), Float.parseFloat(yClosedPosTF.getText())));
+                if (!body.isStartOpen()) {
+                    body.setPosition(body.getClosedPos());
+                    slidingDoorSelected(body);
+                }
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(panel, "Invalid Position", "Warning", JOptionPane.ERROR_MESSAGE);
+        }
+        controller().view.requestFocus();
     }
 
     public void boxStaticSelected(BoxStaticBody body) {
@@ -149,14 +249,16 @@ public class ControlPanel {
         setBasic(body);
         cardLayout.show(extraOptions, "nothing");
     }
+
     public void circleStaticSelected(CircleStaticBody body) {
         enableAll();
         selected.setText("CircleStaticBody");
-        heightTF.setEnabled(false);
-        heightTF.setText("");
         setBasic(body);
+        heightTF.setText("");
+        heightTF.setEnabled(false);
         cardLayout.show(extraOptions, "nothing");
     }
+
     public void slidingDoorSelected(SlidingDoor body) {
         enableAll();
         selected.setText("SlidingDoor");
@@ -171,6 +273,63 @@ public class ControlPanel {
         stayOpenCheckBox.setSelected(body.isStayOpen());
     }
 
+    public void crateSelected(Crate body) {
+        enableAll();
+        selected.setText("Crate");
+        setBasic(body);
+        widthTF.setText("");
+        widthTF.setEnabled(false);
+        heightTF.setText("");
+        heightTF.setEnabled(false);
+        cardLayout.show(extraOptions, "dynamic");
+        densityTF.setText("" + body.getDensity());
+    }
+
+    public void ballSelected(Ball body) {
+        enableAll();
+        selected.setText("Ball");
+        setBasic(body);
+        widthTF.setText("");
+        widthTF.setEnabled(false);
+        heightTF.setText("");
+        heightTF.setEnabled(false);
+        cardLayout.show(extraOptions, "dynamic");
+        densityTF.setText("" + body.getDensity());
+    }
+
+    public void buttonSelected(Button body) {
+        enableAll();
+        selected.setText("Button");
+        setBasic(body);
+        widthTF.setText("");
+        widthTF.setEnabled(false);
+        heightTF.setText("");
+        heightTF.setEnabled(false);
+        cardLayout.show(extraOptions, "nothing");
+    }
+
+    public void exitSelected(Exit body) {
+        enableAll();
+        selected.setText("Exit");
+        setBasic(body);
+        widthTF.setText("");
+        widthTF.setEnabled(false);
+        heightTF.setText("");
+        heightTF.setEnabled(false);
+        cardLayout.show(extraOptions, "nothing");
+    }
+
+    public void playerSelected(Player body) {
+        enableAll();
+        selected.setText("Player");
+        setBasic(body);
+        widthTF.setText("");
+        widthTF.setEnabled(false);
+        heightTF.setText("");
+        heightTF.setEnabled(false);
+        cardLayout.show(extraOptions, "nothing");
+    }
+
     private void setBasic(FakeBody body) {
         nameTF.setText(body.getName());
         xPositionTF.setText("" + body.getPosition().x);
@@ -180,7 +339,7 @@ public class ControlPanel {
         rotationTF.setText("" + body.getAngle());
     }
 
-    public void clearAll() {
+    private void clearAll() {
         selected.setText("No Body Selected");
         cardLayout.show(extraOptions, "nothing");
         nameTF.setEnabled(false);
@@ -198,7 +357,7 @@ public class ControlPanel {
         deleteButton.setEnabled(false);
     }
 
-    public void enableAll() {
+    private void enableAll() {
         nameTF.setEnabled(true);
         xPositionTF.setEnabled(true);
         yPositionTF.setEnabled(true);
@@ -335,6 +494,7 @@ public class ControlPanel {
         gbc.fill = GridBagConstraints.BOTH;
         panel.add(panel1, gbc);
         newBodySelector = new JComboBox();
+        newBodySelector.setFocusable(false);
         final DefaultComboBoxModel defaultComboBoxModel1 = new DefaultComboBoxModel();
         newBodySelector.setModel(defaultComboBoxModel1);
         gbc = new GridBagConstraints();
@@ -510,16 +670,38 @@ public class ControlPanel {
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.WEST;
         slidingDoor.add(stayOpenCheckBox, gbc);
-        final JPanel panel2 = new JPanel();
-        panel2.setLayout(new GridBagLayout());
-        extraOptions.add(panel2, "Card1");
+        dynamic = new JPanel();
+        dynamic.setLayout(new GridBagLayout());
+        extraOptions.add(dynamic, "dynamic");
+        final JLabel label7 = new JLabel();
+        label7.setText("Density");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        dynamic.add(label7, gbc);
+        densityTF = new JTextField();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weightx = 0.1;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        dynamic.add(densityTF, gbc);
         final JPanel spacer18 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.weighty = 0.5;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        dynamic.add(spacer18, gbc);
+        final JPanel spacer19 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 14;
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.VERTICAL;
-        panel.add(spacer18, gbc);
+        panel.add(spacer19, gbc);
         heightTF = new JTextField();
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
@@ -535,21 +717,21 @@ public class ControlPanel {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(yPositionTF, gbc);
-        final JPanel spacer19 = new JPanel();
+        final JPanel spacer20 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 0;
         gbc.weightx = 0.5;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(spacer19, gbc);
-        final JLabel label7 = new JLabel();
-        label7.setText("Rotation");
+        panel.add(spacer20, gbc);
+        final JLabel label8 = new JLabel();
+        label8.setText("Rotation");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 12;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.WEST;
-        panel.add(label7, gbc);
+        panel.add(label8, gbc);
         rotationTF = new JTextField();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
@@ -558,14 +740,14 @@ public class ControlPanel {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(rotationTF, gbc);
-        final JLabel label8 = new JLabel();
-        label8.setText("Name");
+        final JLabel label9 = new JLabel();
+        label9.setText("Name");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 3;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.WEST;
-        panel.add(label8, gbc);
+        panel.add(label9, gbc);
         nameTF = new JTextField();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
@@ -582,16 +764,16 @@ public class ControlPanel {
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(deleteButton, gbc);
-        final JPanel spacer20 = new JPanel();
+        final JPanel spacer21 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 2;
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.VERTICAL;
-        panel.add(spacer20, gbc);
+        panel.add(spacer21, gbc);
         label1.setLabelFor(xPositionTF);
         label6.setLabelFor(slidingSpeedTF);
-        label8.setLabelFor(nameTF);
+        label9.setLabelFor(nameTF);
     }
 
     /**

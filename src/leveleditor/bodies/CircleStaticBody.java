@@ -9,7 +9,7 @@ public class CircleStaticBody extends FakeBody {
     public CircleStaticBody(World world) {
         super(world);
         new SolidFixture(this, new CircleShape(0.5f));
-        size = new Vec2(0.5f,0.5f);
+        size = new Vec2(0.5f, 0.5f);
     }
 
     public CircleStaticBody(World world, Vec2 size) {
@@ -19,11 +19,17 @@ public class CircleStaticBody extends FakeBody {
     }
 
     @Override
-    public void setSize(Vec2 size) {
-        CircleStaticBody newBody = new CircleStaticBody(this.getWorld(),size);
+    public FakeBody setSize(Vec2 size) {
+        CircleStaticBody newBody = new CircleStaticBody(this.getWorld(), size);
         newBody.setName(this.getName());
         newBody.setPosition(this.getPosition());
         newBody.setAngle(this.getAngle());
         this.destroy();
+        return newBody;
+    }
+
+    @Override
+    public String toString() {
+        return "CircleStaticBody";
     }
 }

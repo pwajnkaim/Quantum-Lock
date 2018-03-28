@@ -18,16 +18,17 @@ public class BoxStaticBody extends FakeBody{
     }
 
     @Override
-    public void setSize(Vec2 size) {
+    public FakeBody setSize(Vec2 size) {
         BoxStaticBody newBody = new BoxStaticBody(this.getWorld(),size);
         newBody.setName(this.getName());
         newBody.setPosition(this.getPosition());
         newBody.setAngle(this.getAngle());
         this.destroy();
+        return newBody;
     }
 
     @Override
     public String toString() {
-        return "new StaticBody(this, new BoxShape(" +  size.x + "f, " + size.y + "f));";
+        return "BoxStaticBody";
     }
 }

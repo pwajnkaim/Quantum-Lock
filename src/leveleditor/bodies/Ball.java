@@ -1,12 +1,11 @@
 package leveleditor.bodies;
 
-import city.cs.engine.BoxShape;
 import city.cs.engine.CircleShape;
 import city.cs.engine.SolidFixture;
 import city.cs.engine.World;
 import org.jbox2d.common.Vec2;
 
-public class Ball extends FakeBody implements Dynamic{
+public class Ball extends FakeBody implements Density {
     private float density = 20;
     public Ball(World world) {
         super(world);
@@ -29,17 +28,17 @@ public class Ball extends FakeBody implements Dynamic{
 
     @Override
     public FakeBody setSize(Vec2 size) {
-        Ball ball = new Ball(this.getWorld(),size);
-        ball.setName(this.getName());
-        ball.setPosition(this.getPosition());
-        ball.setAngle(this.getAngle());
-        ball.setDensity(density);
+        Ball newBody = new Ball(this.getWorld(),size);
+        newBody.setName(this.getName());
+        newBody.setPosition(this.getPosition());
+        newBody.setAngle(this.getAngle());
+        newBody.setDensity(density);
         this.destroy();
-        return ball;
+        return newBody;
     }
 
     @Override
     public String toString() {
-        return "Ball";
+        return "ball";
     }
 }

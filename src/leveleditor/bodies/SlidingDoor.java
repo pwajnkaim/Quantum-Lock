@@ -87,6 +87,6 @@ public class SlidingDoor extends FakeBody {
 
     @Override
     public String toString() {
-        return "SlidingDoor";
+        return "slidingDoor";
     }
 }

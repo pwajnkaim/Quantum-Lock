@@ -30,6 +30,6 @@ public class CircleStaticBody extends FakeBody {
 
     @Override
     public String toString() {
-        return "CircleStaticBody";
+        return "circleStaticBody";
     }
 }

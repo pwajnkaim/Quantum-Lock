@@ -1,6 +1,5 @@
 package leveleditor;
 
-import city.cs.engine.UserView;
 import leveleditor.bodies.*;
 import leveleditor.bodies.Button;
 import org.jbox2d.common.Vec2;
@@ -149,7 +148,7 @@ public class ControlPanel {
         densityTF.addActionListener(e -> {
             try {
                 if (controller().selected != null)
-                    ((Dynamic) controller().selected).setDensity(Float.parseFloat(densityTF.getText()));
+                    ((Density) controller().selected).setDensity(Float.parseFloat(densityTF.getText()));
             } catch (NumberFormatException nfe) {
                 JOptionPane.showMessageDialog(panel, "Invalid Number", "Warning", JOptionPane.ERROR_MESSAGE);
             }

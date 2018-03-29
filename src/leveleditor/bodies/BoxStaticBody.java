@@ -29,6 +29,6 @@ public class BoxStaticBody extends FakeBody{
 
     @Override
     public String toString() {
-        return "BoxStaticBody";
+        return "boxStaticBody";
     }
 }

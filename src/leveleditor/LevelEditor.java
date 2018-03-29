@@ -2,6 +2,7 @@ package leveleditor;
 
 import city.cs.engine.*;
 import leveleditor.bodies.BoxStaticBody;
+import leveleditor.bodies.FileManager;
 import org.jbox2d.common.Vec2;
 
 import javax.swing.*;
@@ -12,12 +13,15 @@ import java.io.File;
 
 public class LevelEditor {
     public static boolean movingUp, movingDown, movingLeft, movingRight;
-    public World world;
+    public static World world;
     public static UserView view;
     public static ControlPanel controlPanel = new ControlPanel();
     public static MouseController mouseController;
     public static MenuBar menuBar;
+    public static FileManager fileManager = new FileManager();
     public static JFrame frame;
+
+    public static File saveFile;
 
     private LevelEditor() {
         frame = new JFrame("Level Editor");

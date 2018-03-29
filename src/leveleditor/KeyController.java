@@ -4,6 +4,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import city.cs.engine.UserView;
 import leveleditor.bodies.BoxStaticBody;
+import leveleditor.bodies.FileManager;
 
 /**
  *
@@ -20,7 +21,7 @@ public class KeyController {
             }
             if (e.getKeyCode() == KeyEvent.VK_S) { //DOWN
                 if (e.isControlDown()) { //CTL+S save
-                    LevelEditor.menuBar.save();
+                    MenuBar.save();
                 } else {
                     LevelEditor.movingDown = true;
                 }

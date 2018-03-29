@@ -5,7 +5,7 @@ import city.cs.engine.SolidFixture;
 import city.cs.engine.World;
 import org.jbox2d.common.Vec2;
 
-public class Crate extends FakeBody implements Dynamic{
+public class Crate extends FakeBody implements Density {
     private float density = 20;
     public Crate(World world) {
         super(world);
@@ -39,6 +39,6 @@ public class Crate extends FakeBody implements Dynamic{
 
     @Override
     public String toString() {
-        return "Crate";
+        return "crate";
     }
 }

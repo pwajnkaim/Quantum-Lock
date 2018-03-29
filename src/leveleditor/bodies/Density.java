@@ -1,6 +1,6 @@
 package leveleditor.bodies;
 
-public interface Dynamic {
+public interface Density {
     float getDensity();
     void setDensity(float density);
 }

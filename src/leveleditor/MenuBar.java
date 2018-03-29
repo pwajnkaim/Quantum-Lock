@@ -1,7 +1,5 @@
 package leveleditor;
 
-import leveleditor.bodies.FileManager;
-
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
@@ -56,12 +54,15 @@ public class MenuBar extends JMenuBar{
     }
 
     private static void browserDialog(int state) {
+        LevelEditor.inDialog = true;
         fileChooser.setCurrentDirectory(new File("maps"));
         int result = 0;
         if (state == SAVING)
             result = fileChooser.showSaveDialog(LevelEditor.frame);
         else if (state == OPENING)
             result = fileChooser.showOpenDialog(LevelEditor.frame);
+        else
+            LevelEditor.inDialog = false;
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             if (state == SAVING) {
@@ -75,6 +76,7 @@ public class MenuBar extends JMenuBar{
                 FileManager.open(selectedFile);
             }
         }
+        LevelEditor.inDialog = false;
     }
 
     private static String getFileExtension(File file) {

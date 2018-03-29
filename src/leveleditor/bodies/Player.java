@@ -6,6 +6,7 @@ import city.cs.engine.World;
 import org.jbox2d.common.Vec2;
 
 public class Player extends FakeBody {
+    private boolean gunDisabled = false;
     public Player(World world) {
         super(world);
         new SolidFixture(this, new BoxShape(0.6f,0.9f));
@@ -16,6 +17,13 @@ public class Player extends FakeBody {
         super(world);
         new SolidFixture(this, new BoxShape(size.x,size.y));
         this.size = size;
+    }
+
+    public void setGunDisabled(boolean value) {
+        this.gunDisabled = value;
+    }
+    public boolean isGunDisabled() {
+        return gunDisabled;
     }
 
     @Override

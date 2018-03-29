@@ -357,6 +357,30 @@
                   </vspacer>
                 </children>
               </grid>
+              <grid id="3110" binding="player" layout-manager="GridBagLayout">
+                <constraints>
+                  <card name="player"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="676c7" class="javax.swing.JCheckBox" binding="gunDisabled">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="1.0" weighty="0.0"/>
+                    </constraints>
+                    <properties>
+                      <text value="Gun Disabled"/>
+                    </properties>
+                  </component>
+                  <vspacer id="494a7">
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.1"/>
+                    </constraints>
+                  </vspacer>
+                </children>
+              </grid>
             </children>
           </grid>
         </children>

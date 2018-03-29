@@ -31,6 +31,8 @@ public class ControlPanel {
     private JButton deleteButton;
     private JPanel dynamic;
     private JTextField densityTF;
+    private JPanel player;
+    private JCheckBox gunDisabled;
 
     private CardLayout cardLayout;
 
@@ -129,6 +131,11 @@ public class ControlPanel {
         yClosedPosTF.addActionListener(e -> {
             changeClosedPosition();
         });
+        slidingSpeedTF.addActionListener(e -> {
+            if (controller().selected != null)
+                ((SlidingDoor) controller().selected).setSlidingSpeed(Float.parseFloat(slidingSpeedTF.getText()));
+            controller().view.requestFocus();
+        });
         stayOpenCheckBox.addActionListener(e -> {
             if (controller().selected != null)
                 ((SlidingDoor) controller().selected).setStayOpen(stayOpenCheckBox.isSelected());
@@ -154,6 +161,13 @@ public class ControlPanel {
             }
             controller().view.requestFocus();
         });
+        //player
+        gunDisabled.addActionListener(e -> {
+            if (controller().selected != null) {
+                ((Player) controller().selected).setGunDisabled(gunDisabled.isSelected());
+            }
+            controller().view.requestFocus();
+        });
         //other
         createNewBodyButton.addActionListener(e -> {
             String bodyType = newBodySelector.getSelectedItem().toString();
@@ -176,6 +190,7 @@ public class ControlPanel {
             }
         });
     }
+
     private MouseController controller() { //get mouse controller
         return LevelEditor.mouseController;
     }
@@ -326,7 +341,8 @@ public class ControlPanel {
         widthTF.setEnabled(false);
         heightTF.setText("");
         heightTF.setEnabled(false);
-        cardLayout.show(extraOptions, "nothing");
+        cardLayout.show(extraOptions, "player");
+        gunDisabled.setSelected(body.isGunDisabled());
     }
 
     private void setBasic(FakeBody body) {
@@ -338,7 +354,9 @@ public class ControlPanel {
         rotationTF.setText("" + body.getAngle());
     }
 
-    private void clearAll() {
+    public void clearAll() {
+        if (LevelEditor.mouseController != null)
+            LevelEditor.mouseController.selected = null;
         selected.setText("No Body Selected");
         cardLayout.show(extraOptions, "nothing");
         nameTF.setEnabled(false);
@@ -694,13 +712,31 @@ public class ControlPanel {
         gbc.weighty = 0.5;
         gbc.fill = GridBagConstraints.VERTICAL;
         dynamic.add(spacer18, gbc);
+        player = new JPanel();
+        player.setLayout(new GridBagLayout());
+        extraOptions.add(player, "player");
+        gunDisabled = new JCheckBox();
+        gunDisabled.setText("Gun Disabled");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.WEST;
+        player.add(gunDisabled, gbc);
         final JPanel spacer19 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weighty = 0.1;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        player.add(spacer19, gbc);
+        final JPanel spacer20 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 14;
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.VERTICAL;
-        panel.add(spacer19, gbc);
+        panel.add(spacer20, gbc);
         heightTF = new JTextField();
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
@@ -716,13 +752,13 @@ public class ControlPanel {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(yPositionTF, gbc);
-        final JPanel spacer20 = new JPanel();
+        final JPanel spacer21 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 0;
         gbc.weightx = 0.5;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(spacer20, gbc);
+        panel.add(spacer21, gbc);
         final JLabel label8 = new JLabel();
         label8.setText("Rotation");
         gbc = new GridBagConstraints();
@@ -763,13 +799,13 @@ public class ControlPanel {
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(deleteButton, gbc);
-        final JPanel spacer21 = new JPanel();
+        final JPanel spacer22 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 2;
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.VERTICAL;
-        panel.add(spacer21, gbc);
+        panel.add(spacer22, gbc);
         label1.setLabelFor(xPositionTF);
         label6.setLabelFor(slidingSpeedTF);
         label9.setLabelFor(nameTF);

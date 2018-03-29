@@ -2,11 +2,9 @@ package leveleditor;
 
 import city.cs.engine.*;
 import leveleditor.bodies.BoxStaticBody;
-import leveleditor.bodies.FileManager;
 import org.jbox2d.common.Vec2;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -18,6 +16,7 @@ public class LevelEditor {
     public static ControlPanel controlPanel = new ControlPanel();
     public static MouseController mouseController;
     public static MenuBar menuBar;
+    public static boolean inDialog = false;
     public static FileManager fileManager = new FileManager();
     public static JFrame frame;
 
@@ -164,6 +163,12 @@ public class LevelEditor {
             System.out.println("BoxStaticBody staticBody"+i+" = new BoxStaticBody(world, new Vec2("+((BoxStaticBody)body).getSize().x+"f, "+((BoxStaticBody)body).getSize().y+"f));");
             System.out.println("staticBody"+i+".setPosition(new Vec2("+body.getPosition().x+"f, "+body.getPosition().y+"f));");
             i++;
+        }
+    }
+
+    public static void clearWorld() {
+        for(StaticBody body : world.getStaticBodies()) {
+            body.destroy();
         }
     }
 

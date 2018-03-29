@@ -79,7 +79,6 @@ public class MouseController extends MouseAdapter{
 
     public void select(Body body) {
         selected = (FakeBody)body;
-        System.out.println("level editor"+LevelEditor.controlPanel);
         if (body instanceof BoxStaticBody) LevelEditor.controlPanel.boxStaticSelected((BoxStaticBody)body);
         else if (body instanceof CircleStaticBody) LevelEditor.controlPanel.circleStaticSelected((CircleStaticBody)body);
         else if (body instanceof SlidingDoor) LevelEditor.controlPanel.slidingDoorSelected((SlidingDoor)body);

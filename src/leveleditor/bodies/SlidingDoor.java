@@ -6,8 +6,8 @@ import city.cs.engine.World;
 import org.jbox2d.common.Vec2;
 
 public class SlidingDoor extends FakeBody {
-    private Vec2 openPos = new Vec2(0,0);
-    private Vec2 closedPos = new Vec2(0,0);
+    private Vec2 openPos;
+    private Vec2 closedPos;
     private float slidingSpeed = 0.05f;
     private boolean startOpen = false;
     private boolean stayOpen = false;

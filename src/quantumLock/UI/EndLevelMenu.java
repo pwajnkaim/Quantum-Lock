@@ -7,22 +7,20 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class EndLevelMenu {
     public JButton nextLevelButton;
     private JButton mainMenuButton;
     public JTable results;
-    public JPanel panel;
+    public JPanel endPanel;
     private JScrollPane scrollPane;
     public JLabel time;
 
     public EndLevelMenu() {
         $$$setupUI$$$();
-        panel.setSize(500, 500);
-        panel.setVisible(false);
-        panel.setEnabled(false);
+        endPanel.setSize(500, 500);
+        endPanel.setVisible(false);
+        endPanel.setEnabled(false);
         nextLevelButton.setEnabled(true);
 
         nextLevelButton.addActionListener(e -> {
@@ -62,13 +60,13 @@ public class EndLevelMenu {
     }
 
     public void show() {
-        panel.setVisible(true);
-        panel.setEnabled(true);
+        endPanel.setVisible(true);
+        endPanel.setEnabled(true);
     }
 
     public void hide() {
-        panel.setVisible(false);
-        panel.setEnabled(false);
+        endPanel.setVisible(false);
+        endPanel.setEnabled(false);
     }
 
     /**
@@ -80,9 +78,9 @@ public class EndLevelMenu {
      */
     private void $$$setupUI$$$() {
         createUIComponents();
-        panel = new JPanel();
-        panel.setLayout(new GridBagLayout());
-        panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), null));
+        endPanel = new JPanel();
+        endPanel.setLayout(new GridBagLayout());
+        endPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), null));
         nextLevelButton = new JButton();
         Font nextLevelButtonFont = this.$$$getFont$$$(null, -1, 20, nextLevelButton.getFont());
         if (nextLevelButtonFont != null) nextLevelButton.setFont(nextLevelButtonFont);
@@ -94,28 +92,28 @@ public class EndLevelMenu {
         gbc.gridwidth = 3;
         gbc.weightx = 0.1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(nextLevelButton, gbc);
+        endPanel.add(nextLevelButton, gbc);
         final JPanel spacer1 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 3;
         gbc.gridy = 6;
         gbc.weighty = 0.06;
         gbc.fill = GridBagConstraints.VERTICAL;
-        panel.add(spacer1, gbc);
+        endPanel.add(spacer1, gbc);
         mainMenuButton = new JButton();
         mainMenuButton.setText("Main Menu");
         gbc = new GridBagConstraints();
         gbc.gridx = 3;
         gbc.gridy = 9;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(mainMenuButton, gbc);
+        endPanel.add(mainMenuButton, gbc);
         final JPanel spacer2 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 3;
         gbc.gridy = 8;
         gbc.weighty = 0.05;
         gbc.fill = GridBagConstraints.VERTICAL;
-        panel.add(spacer2, gbc);
+        endPanel.add(spacer2, gbc);
         final JLabel label1 = new JLabel();
         Font label1Font = this.$$$getFont$$$(null, -1, 48, label1.getFont());
         if (label1Font != null) label1.setFont(label1Font);
@@ -124,28 +122,28 @@ public class EndLevelMenu {
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 7;
-        panel.add(label1, gbc);
+        endPanel.add(label1, gbc);
         final JPanel spacer3 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 3;
         gbc.gridy = 0;
         gbc.weighty = 0.1;
         gbc.fill = GridBagConstraints.VERTICAL;
-        panel.add(spacer3, gbc);
+        endPanel.add(spacer3, gbc);
         final JPanel spacer4 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 3;
         gbc.gridy = 10;
         gbc.weighty = 0.05;
         gbc.fill = GridBagConstraints.VERTICAL;
-        panel.add(spacer4, gbc);
+        endPanel.add(spacer4, gbc);
         final JPanel spacer5 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 3;
         gbc.gridy = 4;
         gbc.weighty = 0.06;
         gbc.fill = GridBagConstraints.VERTICAL;
-        panel.add(spacer5, gbc);
+        endPanel.add(spacer5, gbc);
         scrollPane.setEnabled(false);
         scrollPane.setHorizontalScrollBarPolicy(30);
         gbc = new GridBagConstraints();
@@ -155,7 +153,7 @@ public class EndLevelMenu {
         gbc.weightx = 0.5;
         gbc.weighty = 0.2;
         gbc.fill = GridBagConstraints.BOTH;
-        panel.add(scrollPane, gbc);
+        endPanel.add(scrollPane, gbc);
         results.setEnabled(false);
         results.setFillsViewportHeight(false);
         scrollPane.setViewportView(results);
@@ -165,42 +163,42 @@ public class EndLevelMenu {
         gbc.gridy = 5;
         gbc.weightx = 0.1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(spacer6, gbc);
+        endPanel.add(spacer6, gbc);
         final JPanel spacer7 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 5;
         gbc.weightx = 0.1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(spacer7, gbc);
+        endPanel.add(spacer7, gbc);
         final JPanel spacer8 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 7;
         gbc.weightx = 0.1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(spacer8, gbc);
+        endPanel.add(spacer8, gbc);
         final JPanel spacer9 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 5;
         gbc.gridy = 7;
         gbc.weightx = 0.1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(spacer9, gbc);
+        endPanel.add(spacer9, gbc);
         final JPanel spacer10 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 4;
         gbc.gridy = 9;
         gbc.weightx = 0.01;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(spacer10, gbc);
+        endPanel.add(spacer10, gbc);
         final JPanel spacer11 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 9;
         gbc.weightx = 0.01;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(spacer11, gbc);
+        endPanel.add(spacer11, gbc);
         time = new JLabel();
         Font timeFont = this.$$$getFont$$$(null, -1, 22, time.getFont());
         if (timeFont != null) time.setFont(timeFont);
@@ -209,14 +207,14 @@ public class EndLevelMenu {
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.gridwidth = 7;
-        panel.add(time, gbc);
+        endPanel.add(time, gbc);
         final JPanel spacer12 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 3;
         gbc.gridy = 2;
         gbc.weighty = 0.01;
         gbc.fill = GridBagConstraints.VERTICAL;
-        panel.add(spacer12, gbc);
+        endPanel.add(spacer12, gbc);
     }
 
     /**
@@ -242,6 +240,6 @@ public class EndLevelMenu {
      * @noinspection ALL
      */
     public JComponent $$$getRootComponent$$$() {
-        return panel;
+        return endPanel;
     }
 }

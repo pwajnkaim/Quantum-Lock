@@ -64,8 +64,9 @@ public class QuantumLock implements ActionListener{
 
         //position GUI elements based on frame size
         Rectangle bounds = QuantumLock.frame.getBounds();
-        pauseMenu.panel.setLocation((bounds.width / 2)-pauseMenu.panel.getWidth()/2, (bounds.height / 2)-pauseMenu.panel.getHeight()/2);
-        endLevelMenu.panel.setLocation((bounds.width / 2)-endLevelMenu.panel.getWidth()/2, (bounds.height / 2)-endLevelMenu.panel.getHeight()/2);
+        //positioning them in the center of the screen
+        pauseMenu.pausePanel.setLocation((bounds.width / 2)-pauseMenu.pausePanel.getWidth()/2, (bounds.height / 2)-pauseMenu.pausePanel.getHeight()/2);
+        endLevelMenu.endPanel.setLocation((bounds.width / 2)-endLevelMenu.endPanel.getWidth()/2, (bounds.height / 2)-endLevelMenu.endPanel.getHeight()/2);
         timer.setSize(timer.getPreferredSize());
         timer.setLocation((bounds.width / 2)-timer.getWidth()/2,60);
 
@@ -78,7 +79,7 @@ public class QuantumLock implements ActionListener{
         if (world != null) world.clear();
 
         MainMenu mainMenu = new MainMenu();
-        frame.add(mainMenu.mainMenu);
+        frame.add(mainMenu.mainMenuPanel);
         frame.setVisible(true);
     }
 
@@ -96,7 +97,7 @@ public class QuantumLock implements ActionListener{
 
     public static void nextLevel() {
         world.clear();
-
+        world = null;
         currentLevel++;
         startLevel();
     }
@@ -128,8 +129,8 @@ public class QuantumLock implements ActionListener{
         view.setLayout(null);
 
         view.add(timer); //timer
-        view.add(pauseMenu.panel); //pause menu
-        view.add(endLevelMenu.panel); //end level screen
+        view.add(pauseMenu.pausePanel); //pause menu
+        view.add(endLevelMenu.endPanel); //end level screen
 
         frame.add(view); //show world in window
         frame.setVisible(true);
@@ -146,7 +147,7 @@ public class QuantumLock implements ActionListener{
 
         //debug
         //view.setGridResolution(1);
-        //DebugViewer debugView = new DebugViewer(world, 500, 500);
+        DebugViewer debugView = new DebugViewer(world, 500, 500);
     }
 
     public static void main(String[] args) {
@@ -193,7 +194,7 @@ public class QuantumLock implements ActionListener{
     }
     
     public static void pauseGame() {
-        if(!endLevelMenu.panel.isVisible()) {
+        if(!endLevelMenu.endPanel.isVisible()) {
             isPaused = true;
             world.pause();
             pauseMenu.show();

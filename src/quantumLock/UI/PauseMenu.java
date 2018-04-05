@@ -9,14 +9,14 @@ import java.awt.event.ActionListener;
 
 public class PauseMenu {
     private JButton resumeGameButton;
-    public JPanel panel;
+    public JPanel pausePanel;
     private JButton quitGameButton;
     private JButton restartLevelButton;
 
     public PauseMenu() {
-        panel.setSize(210, 200);
-        panel.setVisible(false);
-        panel.setEnabled(false);
+        pausePanel.setSize(210, 200);
+        pausePanel.setVisible(false);
+        pausePanel.setEnabled(false);
 
         resumeGameButton.addActionListener(e -> QuantumLock.resumeGame());
         restartLevelButton.addActionListener(e -> {
@@ -27,13 +27,13 @@ public class PauseMenu {
     }
 
     public void show() {
-        panel.setVisible(true);
-        panel.setEnabled(true);
+        pausePanel.setVisible(true);
+        pausePanel.setEnabled(true);
     }
 
     public void hide() {
-        panel.setVisible(false);
-        panel.setEnabled(false);
+        pausePanel.setVisible(false);
+        pausePanel.setEnabled(false);
     }
 
     {
@@ -51,10 +51,10 @@ public class PauseMenu {
      * @noinspection ALL
      */
     private void $$$setupUI$$$() {
-        panel = new JPanel();
-        panel.setLayout(new GridBagLayout());
-        panel.setFocusable(false);
-        panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), null));
+        pausePanel = new JPanel();
+        pausePanel.setLayout(new GridBagLayout());
+        pausePanel.setFocusable(false);
+        pausePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), null));
         quitGameButton = new JButton();
         quitGameButton.setFocusable(false);
         Font quitGameButtonFont = this.$$$getFont$$$(null, -1, 22, quitGameButton.getFont());
@@ -65,28 +65,28 @@ public class PauseMenu {
         gbc.gridx = 1;
         gbc.gridy = 5;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(quitGameButton, gbc);
+        pausePanel.add(quitGameButton, gbc);
         final JPanel spacer1 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 2;
         gbc.weighty = 0.1;
         gbc.fill = GridBagConstraints.VERTICAL;
-        panel.add(spacer1, gbc);
+        pausePanel.add(spacer1, gbc);
         final JPanel spacer2 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 4;
         gbc.weighty = 0.1;
         gbc.fill = GridBagConstraints.VERTICAL;
-        panel.add(spacer2, gbc);
+        pausePanel.add(spacer2, gbc);
         final JPanel spacer3 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.weighty = 0.9;
         gbc.fill = GridBagConstraints.VERTICAL;
-        panel.add(spacer3, gbc);
+        pausePanel.add(spacer3, gbc);
         resumeGameButton = new JButton();
         resumeGameButton.setFocusable(false);
         Font resumeGameButtonFont = this.$$$getFont$$$(null, -1, 22, resumeGameButton.getFont());
@@ -96,19 +96,19 @@ public class PauseMenu {
         gbc.gridx = 1;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(resumeGameButton, gbc);
+        pausePanel.add(resumeGameButton, gbc);
         final JPanel spacer4 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(spacer4, gbc);
+        pausePanel.add(spacer4, gbc);
         final JPanel spacer5 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 3;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(spacer5, gbc);
+        pausePanel.add(spacer5, gbc);
         restartLevelButton = new JButton();
         restartLevelButton.setFocusable(false);
         Font restartLevelButtonFont = this.$$$getFont$$$(null, -1, 22, restartLevelButton.getFont());
@@ -118,14 +118,14 @@ public class PauseMenu {
         gbc.gridx = 1;
         gbc.gridy = 3;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel.add(restartLevelButton, gbc);
+        pausePanel.add(restartLevelButton, gbc);
         final JPanel spacer6 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 6;
         gbc.weighty = 0.9;
         gbc.fill = GridBagConstraints.VERTICAL;
-        panel.add(spacer6, gbc);
+        pausePanel.add(spacer6, gbc);
     }
 
     /**
@@ -151,6 +151,6 @@ public class PauseMenu {
      * @noinspection ALL
      */
     public JComponent $$$getRootComponent$$$() {
-        return panel;
+        return pausePanel;
     }
 }

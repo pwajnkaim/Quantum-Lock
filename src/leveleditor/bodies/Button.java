@@ -5,8 +5,11 @@ import city.cs.engine.SolidFixture;
 import city.cs.engine.World;
 import org.jbox2d.common.Vec2;
 
+import java.util.ArrayList;
+
 public class Button extends FakeBody implements Density{
     private float density = 50;
+    public ArrayList<SlidingDoor> doors = new ArrayList<>();
     public Button(World world) {
         super(world);
         new SolidFixture(this, new BoxShape(2,2));
@@ -25,6 +28,13 @@ public class Button extends FakeBody implements Density{
     public float getDensity() {
         return density;
     }
+    public void addDoor(SlidingDoor door) {
+        if (!doors.contains(door))
+            doors.add(door);
+    }
+    public void removeDoor(SlidingDoor door) {
+        doors.remove(door);
+    }
 
     @Override
     public FakeBody setSize(Vec2 size) {
@@ -33,6 +43,7 @@ public class Button extends FakeBody implements Density{
         newBody.setPosition(this.getPosition());
         newBody.setAngle(this.getAngle());
         newBody.setDensity(density);
+        newBody.doors = this.doors;
         this.destroy();
         return newBody;
     }

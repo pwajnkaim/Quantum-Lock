@@ -148,24 +148,6 @@ public class LevelEditor {
 
     }
 
-    public void generateCode() {
-        int i = 0;
-        for(StaticBody body : world.getStaticBodies()) {
-            System.out.println("StaticBody staticBody"+i+" = "+((BoxStaticBody)body).toString());
-            System.out.println("staticBody"+i+".setPosition(new Vec2("+body.getPosition().x+"f, "+body.getPosition().y+"f));");
-            i++;
-        }
-    }
-
-    public void generateEditorCode() {
-        int i = 0;
-        for(StaticBody body : world.getStaticBodies()) {
-            System.out.println("BoxStaticBody staticBody"+i+" = new BoxStaticBody(world, new Vec2("+((BoxStaticBody)body).getSize().x+"f, "+((BoxStaticBody)body).getSize().y+"f));");
-            System.out.println("staticBody"+i+".setPosition(new Vec2("+body.getPosition().x+"f, "+body.getPosition().y+"f));");
-            i++;
-        }
-    }
-
     public static void clearWorld() {
         for(StaticBody body : world.getStaticBodies()) {
             body.destroy();

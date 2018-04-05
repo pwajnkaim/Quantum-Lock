@@ -1,15 +1,14 @@
 package leveleditor;
 
 import city.cs.engine.StaticBody;
-import javafx.scene.shape.Circle;
-import leveleditor.LevelEditor;
 import leveleditor.bodies.*;
 import org.jbox2d.common.Vec2;
 
+import javax.swing.*;
 import javax.xml.stream.*;
 import javax.xml.stream.events.*;
 import java.io.*;
-import java.util.Iterator;
+import java.util.ArrayList;
 
 public class FileManager {
     public static void save() {
@@ -33,39 +32,70 @@ public class FileManager {
 
             XMLwriter.writeStartDocument();
             XMLwriter.writeStartElement("bodies");
+            int doorCount = 0;
             for (StaticBody staticBody : LevelEditor.world.getStaticBodies()) {
-                FakeBody body = (FakeBody)staticBody;
-                XMLwriter.writeStartElement(body.toString()); //class name
+                if (!(staticBody instanceof Button)) {
+                    FakeBody body = (FakeBody) staticBody;
+                    XMLwriter.writeStartElement(body.toString()); //class name
+                    writeData(XMLwriter, "name", body.getName() + "");
+                    writeData(XMLwriter, "xPosition", Float.toString(body.getPosition().x));//x position
+                    writeData(XMLwriter, "yPosition", Float.toString(body.getPosition().y));//y position
+                    writeData(XMLwriter, "rotation", Float.toString(body.getAngle()));//rotation
 
-                writeData(XMLwriter, "name", body.getName()+"");
-                writeData(XMLwriter, "xPosition", Float.toString(body.getPosition().x));//x position
-                writeData(XMLwriter, "yPosition", Float.toString(body.getPosition().y));//y position
-                writeData(XMLwriter, "rotation", Float.toString(body.getAngle()));//rotation
+                    if (body instanceof BoxStaticBody) {
+                        writeData(XMLwriter, "xSize", Float.toString(body.getSize().x));//x size
+                        writeData(XMLwriter, "ySize", Float.toString(body.getSize().y));//y size
+                    } else if (body instanceof CircleStaticBody) {
+                        writeData(XMLwriter, "radius", Float.toString(body.getSize().x));//radius
+                    } else if (body instanceof SlidingDoor) {
+                        SlidingDoor door = (SlidingDoor) body;
+                        writeData(XMLwriter, "xSize", Float.toString(door.getSize().x));//x size
+                        writeData(XMLwriter, "ySize", Float.toString(door.getSize().y));//y size
 
-                if(body instanceof BoxStaticBody) {
-                    writeData(XMLwriter, "xSize", Float.toString(body.getSize().x));//x size
-                    writeData(XMLwriter, "ySize", Float.toString(body.getSize().y));//y size
-                } else if (body instanceof CircleStaticBody) {
-                    writeData(XMLwriter, "radius", Float.toString(body.getSize().x));//radius
-                } else if (body instanceof SlidingDoor) {
-                    SlidingDoor door = (SlidingDoor)body;
-                    writeData(XMLwriter, "xSize", Float.toString(door.getSize().x));//x size
-                    writeData(XMLwriter, "ySize", Float.toString(door.getSize().y));//y size
+                        writeData(XMLwriter, "xOpenPosition", Float.toString(door.getOpenPos().x));//x open position
+                        writeData(XMLwriter, "yOpenPosition", Float.toString(door.getOpenPos().y));//y open position
+                        writeData(XMLwriter, "xClosedPosition", Float.toString(door.getClosedPos().x));//x closed position
+                        writeData(XMLwriter, "yClosedPosition", Float.toString(door.getClosedPos().y));//y closed position
 
-                    writeData(XMLwriter, "xOpenPosition", Float.toString(door.getOpenPos().x));//x open position
-                    writeData(XMLwriter, "yOpenPosition", Float.toString(door.getOpenPos().y));//y open position
-                    writeData(XMLwriter, "xClosedPosition", Float.toString(door.getClosedPos().x));//x closed position
-                    writeData(XMLwriter, "yClosedPosition", Float.toString(door.getClosedPos().y));//y closed position
-
-                    writeData(XMLwriter,"slidingSpeed", Float.toString(door.getSlidingSpeed()));//sliding speed
-                    writeData(XMLwriter, "startOpen", Boolean.toString(door.isStartOpen()));//start open
-                    writeData(XMLwriter, "stayOpen", Boolean.toString(door.isStayOpen()));//stay open
-                } else if (body instanceof Density) {
-                    writeData(XMLwriter, "density", Float.toString(((Density) body).getDensity()));//density
-                } else if (body instanceof Player) {
-                    writeData(XMLwriter, "gunDisabled", Boolean.toString(((Player) body).isGunDisabled()));
+                        writeData(XMLwriter, "slidingSpeed", Float.toString(door.getSlidingSpeed()));//sliding speed
+                        writeData(XMLwriter, "startOpen", Boolean.toString(door.isStartOpen()));//start open
+                        writeData(XMLwriter, "stayOpen", Boolean.toString(door.isStayOpen()));//stay open
+                        door.id = doorCount;
+                        doorCount++;
+                    } else if (body instanceof Density) {
+                        writeData(XMLwriter, "density", Float.toString(((Density) body).getDensity()));//density
+                        if (body instanceof Ball) {
+                            writeData(XMLwriter, "radius", Float.toString(body.getSize().x));//radius
+                        }
+                    } else if (body instanceof Player) {
+                        writeData(XMLwriter, "gunDisabled", Boolean.toString(((Player) body).isGunDisabled()));
+                    }
+                    XMLwriter.writeEndElement();
                 }
-                XMLwriter.writeEndElement();
+            }
+            for (StaticBody staticBody : LevelEditor.world.getStaticBodies()) {
+                if (staticBody instanceof Button) { //buttons need to be added last
+                    Button button = (Button)staticBody;
+                    XMLwriter.writeStartElement(button.toString()); //class name
+                    writeData(XMLwriter, "name", button.getName()+"");
+                    writeData(XMLwriter, "xPosition", Float.toString(button.getPosition().x));//x position
+                    writeData(XMLwriter, "yPosition", Float.toString(button.getPosition().y));//y position
+                    writeData(XMLwriter, "rotation", Float.toString(button.getAngle()));//rotation
+                    writeData(XMLwriter, "density", Float.toString(button.getDensity()));//density
+
+                    if(button.doors.size() > 0) {
+                        StringBuilder connectedTo = new StringBuilder();
+                        for (SlidingDoor door : button.doors) {
+                            connectedTo.append(door.id).append(",");
+                        }
+                        connectedTo.deleteCharAt(connectedTo.length()-1); //remove last comma
+                        writeData(XMLwriter, "connectedDoors", connectedTo.toString()); //connected door list
+                    } else {
+                        writeData(XMLwriter, "connectedDoors", "-1"); //not connected to anything
+                    }
+
+                    XMLwriter.writeEndElement();
+                }
             }
             XMLwriter.writeEndElement();
             XMLwriter.writeEndDocument();
@@ -89,6 +119,7 @@ public class FileManager {
         LevelEditor.clearWorld();
         LevelEditor.controlPanel.clearAll();
         try {
+            ArrayList<SlidingDoor> doorList = new ArrayList<>();
             XMLInputFactory factory = XMLInputFactory.newInstance();
             XMLEventReader eventReader = factory.createXMLEventReader(new FileReader(file));
             while(eventReader.hasNext()) {
@@ -126,6 +157,7 @@ public class FileManager {
                         boolean stayOpen = Boolean.parseBoolean(readData(eventReader));
                         body.setStartOpen(startOpen);
                         body.setStayOpen(stayOpen);
+                        doorList.add(body);
                     } else if(qName.equalsIgnoreCase("crate")) {
                         Crate body = new Crate(LevelEditor.world);
                         readBasic(eventReader, body);
@@ -137,10 +169,21 @@ public class FileManager {
                         float density = Float.parseFloat(readData(eventReader));
                         body.setDensity(density);
                     } else if(qName.equalsIgnoreCase("button")) {
+                        System.out.println("button start");
                         Button body = new Button(LevelEditor.world);
                         readBasic(eventReader, body);
+                        System.out.println("post basic");
                         float density = Float.parseFloat(readData(eventReader));
                         body.setDensity(density);
+                        String connectedStr = readData(eventReader);
+                        System.out.println("post connected");
+                        if (!connectedStr.equals("-1")) {
+                            String[] connectedList = connectedStr.split(",");
+                            for(String id : connectedList) {
+                                System.out.println(doorList.get(Integer.parseInt(id)));
+                                body.addDoor(doorList.get(Integer.parseInt(id)));
+                            }
+                        }
                     } else if(qName.equalsIgnoreCase("player")) {
                         Player body = new Player(LevelEditor.world);
                         readBasic(eventReader, body);
@@ -154,7 +197,7 @@ public class FileManager {
             }
             LevelEditor.saveFile = file;
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(LevelEditor.frame, "File not Found", "Warning", JOptionPane.ERROR_MESSAGE);
         } catch (XMLStreamException e) {
             e.printStackTrace();
         }
@@ -171,9 +214,11 @@ public class FileManager {
     }
 
     private static String readData(XMLEventReader eventReader) throws XMLStreamException {
-        eventReader.nextEvent();
-        String data = eventReader.nextEvent().asCharacters().getData();
-        eventReader.nextEvent();
+        XMLEvent event = eventReader.nextEvent();
+        while(event.getEventType() != XMLStreamConstants.CHARACTERS) {
+            event = eventReader.nextEvent();
+        }
+        String data = event.asCharacters().getData();
         return data;
     }
 }

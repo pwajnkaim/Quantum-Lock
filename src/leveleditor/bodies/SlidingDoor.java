@@ -2,10 +2,12 @@ package leveleditor.bodies;
 
 import city.cs.engine.BoxShape;
 import city.cs.engine.SolidFixture;
+import city.cs.engine.StaticBody;
 import city.cs.engine.World;
 import org.jbox2d.common.Vec2;
 
 public class SlidingDoor extends FakeBody {
+    public int id; //used when saving and loading files (for button connections)
     private Vec2 openPos;
     private Vec2 closedPos;
     private float slidingSpeed = 0.05f;
@@ -88,5 +90,15 @@ public class SlidingDoor extends FakeBody {
     @Override
     public String toString() {
         return "slidingDoor";
+    }
+
+    @Override
+    public void destroy() {
+        for (StaticBody body : getWorld().getStaticBodies()) {
+            if (body instanceof Button) {
+                ((Button)body).removeDoor(this);
+            }
+        }
+        super.destroy();
     }
 }

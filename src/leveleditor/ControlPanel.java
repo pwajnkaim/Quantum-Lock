@@ -242,7 +242,7 @@ public class ControlPanel {
     private void changeSize() {
         try {
             if (controller().selected != null) {
-                if (controller().selected instanceof CircleStaticBody)
+                if (controller().selected instanceof CircleStaticBody || controller().selected instanceof Ball)
                     controller().select(controller().selected.setSize(new Vec2(Float.parseFloat(widthTF.getText()), 0)));
                 else
                     controller().select(controller().selected.setSize(new Vec2(Float.parseFloat(widthTF.getText()), Float.parseFloat(heightTF.getText()))));
@@ -341,8 +341,6 @@ public class ControlPanel {
         enableAll();
         selected.setText("Ball");
         setBasic(body);
-        widthTF.setText("");
-        widthTF.setEnabled(false);
         heightTF.setText("");
         heightTF.setEnabled(false);
         cardLayout.show(extraOptions, "dynamic");

@@ -15,9 +15,7 @@ public class LevelEditor {
     public static UserView view;
     public static ControlPanel controlPanel = new ControlPanel();
     public static MouseController mouseController;
-    public static MenuBar menuBar;
     public static boolean inDialog = false;
-    public static FileManager fileManager = new FileManager();
     public static JFrame frame;
 
     public static File saveFile;
@@ -36,13 +34,13 @@ public class LevelEditor {
         frame.add(view, BorderLayout.CENTER); //show world in window
         frame.pack();
 
-        makeBodies();
+        //makeBodies();
 
         mouseController = new MouseController(view);
 
         JScrollPane scrollPane = new JScrollPane(controlPanel.panel);
         frame.add(scrollPane, BorderLayout.WEST);
-        menuBar = new MenuBar();
+        MenuBar menuBar = new MenuBar();
         frame.add(menuBar, BorderLayout.NORTH);
         //view.validate();
 

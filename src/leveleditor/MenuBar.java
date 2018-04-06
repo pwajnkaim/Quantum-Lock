@@ -19,7 +19,8 @@ public class MenuBar extends JMenuBar{
         JMenu fileMenu = new JMenu("File");
         JMenuItem newMap = new JMenuItem("New");
         newMap.addActionListener(e -> {
-
+            LevelEditor.clearWorld();
+            LevelEditor.saveFile = null;
         });
 
         JMenuItem openMap = new JMenuItem("Open");

@@ -242,10 +242,15 @@ public class ControlPanel {
     private void changeSize() {
         try {
             if (controller().selected != null) {
-                if (controller().selected instanceof CircleStaticBody || controller().selected instanceof Ball)
-                    controller().select(controller().selected.setSize(new Vec2(Float.parseFloat(widthTF.getText()), 0)));
-                else
-                    controller().select(controller().selected.setSize(new Vec2(Float.parseFloat(widthTF.getText()), Float.parseFloat(heightTF.getText()))));
+                float width = Float.parseFloat(widthTF.getText());
+                float height = (heightTF.getText().equals("")) ? height = 1 : Float.parseFloat(heightTF.getText());
+                if (width < 0.05f || width > 100f || height < 0.05f || height > 100f) {
+                    throw new NumberFormatException();
+                }
+                if (controller().selected instanceof CircleStaticBody || controller().selected instanceof Ball) {
+                    controller().select(controller().selected.setSize(new Vec2(width, 0)));
+                } else
+                    controller().select(controller().selected.setSize(new Vec2(width, height)));
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(panel, "Invalid Size", "Warning", JOptionPane.ERROR_MESSAGE);

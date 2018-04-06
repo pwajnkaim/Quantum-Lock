@@ -168,6 +168,8 @@ public class FileManager {
                         readBasic(eventReader, body);
                         float density = Float.parseFloat(readData(eventReader));
                         body.setDensity(density);
+                        float radius = Float.parseFloat(eventReader.nextEvent().asCharacters().getData());
+                        body.setSize(new Vec2(radius,0));
                     } else if(qName.equalsIgnoreCase("button")) {
                         System.out.println("button start");
                         Button body = new Button(LevelEditor.world);

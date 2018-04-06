@@ -27,6 +27,7 @@ public class FreezeBall extends DynamicBody implements CollisionListener{
         this.addCollisionListener(this);
 
         Timer timer = new Timer(2000, new DestructionTimer(this));
+        timer.setRepeats(false);
         timer.start();
     }
 

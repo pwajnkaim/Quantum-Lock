@@ -137,7 +137,7 @@ public class FileManager {
                     } else if(qName.equalsIgnoreCase("circleStaticBody")) {
                         CircleStaticBody body = new CircleStaticBody(LevelEditor.world);
                         readBasic(eventReader, body);
-                        float radius = Float.parseFloat(eventReader.nextEvent().asCharacters().getData());
+                        float radius = Float.parseFloat(readData(eventReader));
                         body.setSize(new Vec2(radius,0));
                     } else if (qName.equalsIgnoreCase("slidingDoor")) {
                         SlidingDoor body = new SlidingDoor(LevelEditor.world);
@@ -168,21 +168,17 @@ public class FileManager {
                         readBasic(eventReader, body);
                         float density = Float.parseFloat(readData(eventReader));
                         body.setDensity(density);
-                        float radius = Float.parseFloat(eventReader.nextEvent().asCharacters().getData());
+                        float radius = Float.parseFloat(readData(eventReader));
                         body.setSize(new Vec2(radius,0));
                     } else if(qName.equalsIgnoreCase("button")) {
-                        System.out.println("button start");
                         Button body = new Button(LevelEditor.world);
                         readBasic(eventReader, body);
-                        System.out.println("post basic");
                         float density = Float.parseFloat(readData(eventReader));
                         body.setDensity(density);
                         String connectedStr = readData(eventReader);
-                        System.out.println("post connected");
                         if (!connectedStr.equals("-1")) {
                             String[] connectedList = connectedStr.split(",");
                             for(String id : connectedList) {
-                                System.out.println(doorList.get(Integer.parseInt(id)));
                                 body.addDoor(doorList.get(Integer.parseInt(id)));
                             }
                         }

@@ -46,6 +46,11 @@ public class WeightButton{
         housing.connectToDoor(door);
     }
 
+    public void setName(String name) {
+        button.setName(name);
+        housing.setName(name);
+    }
+
     class Button extends Walker {
 
         private Button(World world, float density) {

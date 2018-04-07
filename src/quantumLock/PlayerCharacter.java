@@ -101,12 +101,9 @@ public class PlayerCharacter extends Walker implements CollisionListener{
             ((Level)getWorld()).levelComplete();
         }
     }
-    
-    public void enableGun() {
-        enabledGun = true;
-    }
-    public void disableGun() {
-        enabledGun = false;
+
+    public void setGun(boolean value) {
+        enabledGun = value;
     }
 
     @Override

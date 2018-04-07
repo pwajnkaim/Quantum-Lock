@@ -12,9 +12,7 @@ public class Ball extends DynamicBody implements Freezable {
     private CircleShape circleShape;
 
     public Ball(World world){
-        super(world);
-        this.circleShape = new CircleShape(0.5f);
-        makeFixtures(this);
+        this(world, new Vec2(0,0));
     }
 
     public Ball(World world, Vec2 pos){
@@ -56,12 +54,14 @@ public class Ball extends DynamicBody implements Freezable {
     @Override
     public List<Object> getExtraInfo() {
         List info = new ArrayList<Object>();
+        info.add(circleShape);
         info.add(density);
         return info;
     }
 
     @Override
     public void setExtraInfo(List<Object> info) {
-        density = (Float)info.get(0);
+        circleShape = (CircleShape)info.get(0);
+        density = (Float)info.get(1);
     }
 }

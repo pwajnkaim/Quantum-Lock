@@ -6,6 +6,8 @@ import city.cs.engine.StaticBody;
 import city.cs.engine.World;
 import org.jbox2d.common.Vec2;
 
+import java.awt.*;
+
 public class SlidingDoor extends FakeBody {
     public int id; //used when saving and loading files (for button connections)
     private Vec2 openPos;
@@ -20,6 +22,7 @@ public class SlidingDoor extends FakeBody {
         size = new Vec2(0.25f,1f);
         closedPos = this.getPosition();
         openPos = this.getPosition();
+        setFillColor(new Color(169, 164, 163));
     }
 
     public SlidingDoor(World world, Vec2 size) {
@@ -28,6 +31,7 @@ public class SlidingDoor extends FakeBody {
         this.size = size;
         closedPos = this.getPosition();
         openPos = this.getPosition();
+        setFillColor(new Color(169, 164, 163));
     }
 
     @Override

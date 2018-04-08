@@ -18,7 +18,7 @@ public class TutorialText extends StaticBody{
     public TutorialText(World world, String image, Vec2 pos, float size) {
         super(world);
         
-        this.addImage(new BodyImage(image, size));
+        this.addImage(new BodyImage(image));
         this.setPosition(pos);
     }
 }

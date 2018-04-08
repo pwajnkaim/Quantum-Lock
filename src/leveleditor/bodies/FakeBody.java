@@ -18,4 +18,17 @@ public abstract class FakeBody extends StaticBody{
     public FakeBody setSize(Vec2 size) {
         return null;
     }
+
+    public float getTopPoint() {
+        return getPosition().y+(getSize().y/2);
+    }
+    public float getLowPoint() {
+        return getPosition().y-(getSize().y/2);
+    }
+    public float getLeftPoint() {
+        return getPosition().x-(getSize().x/2);
+    }
+    public float getRightPoint() {
+        return getPosition().x+(getSize().x/2);
+    }
 }

@@ -84,7 +84,7 @@ public class QuantumLock{
         endLevelMenu.clearResults();
         overallTime = 0;
 
-        currentLevel = 3;
+        currentLevel = 1;
         startLevel(levelList.get(currentLevel-1));
     }
     public static void nextLevel() {
@@ -146,7 +146,7 @@ public class QuantumLock{
 
         //debug
         //view.setGridResolution(1);
-        DebugViewer debugView = new DebugViewer(world, 500, 500);
+        //DebugViewer debugView = new DebugViewer(world, 500, 500);
     }
 
     public static void main(String[] args) {

@@ -5,18 +5,22 @@ import city.cs.engine.SolidFixture;
 import city.cs.engine.World;
 import org.jbox2d.common.Vec2;
 
+import java.awt.*;
+
 public class Crate extends FakeBody implements Density {
     private float density = 20;
     public Crate(World world) {
         super(world);
         new SolidFixture(this, new BoxShape(0.5f,0.5f));
         size = new Vec2(0.5f,0.5f);
+        setFillColor(new Color(110, 79, 45));
     }
 
     public Crate(World world, Vec2 size) {
         super(world);
         new SolidFixture(this, new BoxShape(size.x,size.y));
         this.size = size;
+        setFillColor(new Color(110, 79, 45));
     }
 
     public void setDensity(float density) {

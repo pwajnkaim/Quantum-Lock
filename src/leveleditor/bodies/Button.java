@@ -5,6 +5,7 @@ import city.cs.engine.SolidFixture;
 import city.cs.engine.World;
 import org.jbox2d.common.Vec2;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Button extends FakeBody implements Density{
@@ -14,12 +15,14 @@ public class Button extends FakeBody implements Density{
         super(world);
         new SolidFixture(this, new BoxShape(2,2));
         size = new Vec2(2,2);
+        setFillColor(new Color(136, 99, 95));
     }
 
     public Button(World world, Vec2 size) {
         super(world);
         new SolidFixture(this, new BoxShape(size.x,size.y));
         this.size = size;
+        setFillColor(new Color(136, 99, 95));
     }
 
     public void setDensity(float density) {

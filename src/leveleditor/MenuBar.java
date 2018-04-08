@@ -22,26 +22,23 @@ public class MenuBar extends JMenuBar{
             LevelEditor.clearWorld();
             LevelEditor.saveFile = null;
         });
-
         JMenuItem openMap = new JMenuItem("Open");
-        openMap.addActionListener(e -> {
-            browserDialog(OPENING);
-        });
+        openMap.addActionListener(e -> browserDialog(OPENING));
 
         JMenuItem saveMap = new JMenuItem("Save");
-        saveMap.addActionListener(e -> {
-            save();
-        });
+        saveMap.addActionListener(e -> save());
 
         JMenuItem saveAsMap = new JMenuItem("Save As");
-        saveAsMap.addActionListener(e -> {
-            browserDialog(SAVING);
-        });
+        saveAsMap.addActionListener(e -> browserDialog(SAVING));
+
+        JMenuItem generateImage = new JMenuItem("Generate Image");
+        generateImage.addActionListener(e -> LevelEditor.generateImage());
 
         fileMenu.add(newMap);
         fileMenu.add(openMap);
         fileMenu.add(saveMap);
         fileMenu.add(saveAsMap);
+        fileMenu.add(generateImage);
 
         this.add(fileMenu);
     }

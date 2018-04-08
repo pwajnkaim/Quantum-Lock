@@ -1,16 +1,19 @@
 package leveleditor;
 
 import city.cs.engine.*;
-import leveleditor.bodies.Ball;
-import leveleditor.bodies.BoxStaticBody;
+import javafx.scene.shape.Circle;
+import leveleditor.bodies.*;
 import leveleditor.bodies.Button;
-import leveleditor.bodies.Crate;
 import org.jbox2d.common.Vec2;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Ellipse2D;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
 public class LevelEditor {
     static boolean movingUp, movingDown, movingLeft, movingRight;
@@ -66,6 +69,55 @@ public class LevelEditor {
     static void clearWorld() {
         for(StaticBody body : world.getStaticBodies()) {
             body.destroy();
+        }
+    }
+
+    static void generateImage() {
+        float topEdge = 0, bottomEdge = 0, leftEdge = 0, rightEdge = 0;
+        for(StaticBody staticBody : world.getStaticBodies()){
+            FakeBody body = (FakeBody)staticBody;
+            if (body.getTopPoint() > topEdge)
+                topEdge = body.getTopPoint();
+            if (body.getLowPoint() < bottomEdge)
+                bottomEdge = body.getLowPoint();
+            if (body.getLeftPoint() < leftEdge)
+                leftEdge = body.getLeftPoint();
+            if (body.getRightPoint() > rightEdge)
+                rightEdge = body.getRightPoint();
+        }
+        float width = (Math.abs(leftEdge)<Math.abs(rightEdge))? rightEdge : leftEdge;
+        float height = (Math.abs(topEdge)<Math.abs(bottomEdge))? bottomEdge : topEdge;
+        BufferedImage image = new BufferedImage((int)Math.ceil(width*2*20), (int)Math.ceil(height*2*20), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D graphics = image.createGraphics();
+        for(StaticBody staticBody : world.getStaticBodies()) {
+            FakeBody body = (FakeBody)staticBody;
+            graphics.setColor(new Color(87, 87, 87));
+            float bWidth = (body.getSize().x)*40;
+            float bHeight = (body.getSize().y)*40;
+            int x = Math.round(((body.getPosition().x+width)*20)-bWidth/2);
+            int y = Math.abs(Math.round(((body.getPosition().y-height)*20)+bHeight/2));
+            if(body instanceof CircleStaticBody || body instanceof Ball) {
+                graphics.setPaint(new Color(87, 87, 87));
+                if(body instanceof Ball) graphics.setPaint(new Color(157, 161, 153));
+                graphics.fill(new Ellipse2D.Float(x, y, bWidth, bWidth));
+                graphics.setPaint(new Color(34, 34, 34));
+                graphics.draw(new Ellipse2D.Float(x, y, bWidth, bWidth)); //draw outline
+            } else {
+                graphics.setPaint(new Color(87, 87, 87));
+                if(body instanceof Crate) graphics.setPaint(new Color(110, 79, 45));
+                else if(body instanceof Button) graphics.setPaint(new Color(136, 99, 95));
+                else if(body instanceof Exit) graphics.setPaint(new Color(99, 136, 132));
+                else if(body instanceof Player) graphics.setPaint(new Color(95, 136, 91));
+                else if(body instanceof SlidingDoor) graphics.setPaint(new Color(169, 164, 163));
+                graphics.fill(new Rectangle(x, y, Math.round(bWidth), Math.round(bHeight)));
+                graphics.setPaint(new Color(34, 34, 34));
+                graphics.draw(new Rectangle(x, y, Math.round(bWidth), Math.round(bHeight)));
+            }
+        }
+        try {
+            ImageIO.write(image, "png", new File("maps/"+saveFile.getName().replaceFirst("[.][^.]+$", "")+"_generated.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

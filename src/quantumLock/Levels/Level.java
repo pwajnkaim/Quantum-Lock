@@ -174,6 +174,11 @@ public class Level extends World{
                 }
             }
             doorList.clear();
+            File image = new File("maps/"+file.getName().replaceFirst("[.][^.]+$", "")+".png");
+            if(image.exists() && !image.isDirectory()) {
+                System.out.println();
+                new ImageOverlay(this, image);
+            }
         } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(QuantumLock.frame, "File not Found", "Warning", JOptionPane.ERROR_MESSAGE);
             QuantumLock.hideLevelEnd();

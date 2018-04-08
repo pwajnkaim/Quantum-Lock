@@ -49,13 +49,21 @@ public class SlidingDoor extends StaticBody{
     
     public void moveDoor() {
         if(opening) {
-            Vec2 delta = openPos.sub(getPosition());
-            delta.normalize();
-            setPosition(getPosition().add(delta.mul(slidingSpeed)));
+            if(getPosition().sub(openPos).abs().length() <= slidingSpeed) {
+                setPosition(openPos);
+            } else {
+                Vec2 delta = openPos.sub(getPosition());
+                delta.normalize();
+                setPosition(getPosition().add(delta.mul(slidingSpeed)));
+            }
         } else if(closing && !stayOpen) {
-            Vec2 delta = closedPos.sub(getPosition());
-            delta.normalize();
-            setPosition(getPosition().add(delta.mul(slidingSpeed)));
+            if(getPosition().sub(closedPos).abs().length() < slidingSpeed) {
+                setPosition(closedPos);
+            } else {
+                Vec2 delta = closedPos.sub(getPosition());
+                delta.normalize();
+                setPosition(getPosition().add(delta.mul(slidingSpeed)));
+            }
         }
     }
     

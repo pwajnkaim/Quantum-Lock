@@ -21,8 +21,7 @@ public class PlayerCharacter extends Walker implements CollisionListener{
     int jumps;
     boolean movingLeft;
     boolean movingRight;
-    
-    private int keysCollected;
+
     private boolean enabledGun = true;
     
     final private SolidFixture legs;
@@ -84,22 +83,6 @@ public class PlayerCharacter extends Walker implements CollisionListener{
     
     public void dropGrabbed() {
         grabbedBody = null;
-    }
-    
-    public int getKeysCollected() {
-        return keysCollected;
-    }
-
-    public void setKeysCollected(int keys_collected) {
-        this.keysCollected = keys_collected;
-    }
-    
-    public void addKey() {
-        keysCollected++;
-        if (keysCollected >= 3) {
-            System.out.println("done");
-            ((Level)getWorld()).levelComplete();
-        }
     }
 
     public void setGun(boolean value) {

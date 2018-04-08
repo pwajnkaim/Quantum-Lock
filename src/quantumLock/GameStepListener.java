@@ -30,8 +30,6 @@ public class GameStepListener implements StepListener {
     private  Vec2 offset = new Vec2(0,0);
     @Override
     public void preStep(StepEvent se) {
-       
-
         for(SlidingDoor door : world.getSlidingDoors()){
             door.moveDoor();
         }
@@ -51,6 +49,7 @@ public class GameStepListener implements StepListener {
             Vec2 bodyPos = player.grabbedBody.getPosition();
             Vec2 grabPos = player.grabArea.getPosition();
             Vec2 delta = grabPos.sub(bodyPos);
+            player.grabbedBody.setAngularVelocity(player.grabbedBody.getAngularVelocity()/2); //slow rotation
             if(delta.length() > 2) {
                 player.grabbedBody = null; //stop holding if too far away
             } else {

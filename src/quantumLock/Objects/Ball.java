@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Ball extends DynamicBody implements Freezable {
-    private float density = 0.5f;
+    private float density = 1f;
     private CircleShape circleShape;
 
     public Ball(World world){

@@ -1,20 +1,25 @@
 package quantumLock.UI;
 
+import leveleditor.LevelEditor;
 import quantumLock.QuantumLock;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MainMenu {
     private JButton btnNewGame;
-    private JButton btnLevelSelect;
-    private JButton btnContinueGame;
+    private JButton btnLevelEditor;
+    private JButton btnSelectLevel;
     public JPanel mainMenuPanel;
     private JButton quitGameButton;
 
     public MainMenu() {
         btnNewGame.addActionListener(e -> QuantumLock.newGame());
         quitGameButton.addActionListener(e -> QuantumLock.quitGame());
+        btnLevelEditor.addActionListener(e -> LevelEditor.main(null));
+        btnSelectLevel.addActionListener(e -> QuantumLock.showLevelSelectMenu());
     }
 
     {
@@ -34,18 +39,18 @@ public class MainMenu {
     private void $$$setupUI$$$() {
         mainMenuPanel = new JPanel();
         mainMenuPanel.setLayout(new GridBagLayout());
-        btnLevelSelect = new JButton();
-        btnLevelSelect.setEnabled(false);
-        Font btnLevelSelectFont = this.$$$getFont$$$(null, -1, 20, btnLevelSelect.getFont());
-        if (btnLevelSelectFont != null) btnLevelSelect.setFont(btnLevelSelectFont);
-        btnLevelSelect.setText("Level Select");
+        btnLevelEditor = new JButton();
+        btnLevelEditor.setEnabled(true);
+        Font btnLevelEditorFont = this.$$$getFont$$$(null, -1, 20, btnLevelEditor.getFont());
+        if (btnLevelEditorFont != null) btnLevelEditor.setFont(btnLevelEditorFont);
+        btnLevelEditor.setText("Level Editor");
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 7;
         gbc.weightx = 0.2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        mainMenuPanel.add(btnLevelSelect, gbc);
+        mainMenuPanel.add(btnLevelEditor, gbc);
         final JPanel spacer1 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
@@ -103,17 +108,17 @@ public class MainMenu {
         gbc.weighty = 0.3;
         gbc.fill = GridBagConstraints.VERTICAL;
         mainMenuPanel.add(spacer5, gbc);
-        btnContinueGame = new JButton();
-        btnContinueGame.setEnabled(false);
-        Font btnContinueGameFont = this.$$$getFont$$$(null, -1, 20, btnContinueGame.getFont());
-        if (btnContinueGameFont != null) btnContinueGame.setFont(btnContinueGameFont);
-        btnContinueGame.setText("Continue Game");
+        btnSelectLevel = new JButton();
+        btnSelectLevel.setEnabled(true);
+        Font btnSelectLevelFont = this.$$$getFont$$$(null, -1, 20, btnSelectLevel.getFont());
+        if (btnSelectLevelFont != null) btnSelectLevel.setFont(btnSelectLevelFont);
+        btnSelectLevel.setText("Select Level");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 5;
         gbc.weightx = 0.2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        mainMenuPanel.add(btnContinueGame, gbc);
+        mainMenuPanel.add(btnSelectLevel, gbc);
         final JPanel spacer6 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 2;

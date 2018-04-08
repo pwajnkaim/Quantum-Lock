@@ -7,15 +7,15 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="e6a31" class="javax.swing.JButton" binding="btnLevelSelect">
+      <component id="e6a31" class="javax.swing.JButton" binding="btnLevelEditor">
         <constraints>
           <grid row="7" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.2" weighty="0.0"/>
         </constraints>
         <properties>
-          <enabled value="false"/>
+          <enabled value="true"/>
           <font size="20"/>
-          <text value="Level Select"/>
+          <text value="Level Editor"/>
         </properties>
       </component>
       <vspacer id="2892">
@@ -70,15 +70,15 @@
           <gridbag weightx="0.0" weighty="0.3"/>
         </constraints>
       </vspacer>
-      <component id="109da" class="javax.swing.JButton" binding="btnContinueGame">
+      <component id="109da" class="javax.swing.JButton" binding="btnSelectLevel">
         <constraints>
           <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.2" weighty="0.0"/>
         </constraints>
         <properties>
-          <enabled value="false"/>
+          <enabled value="true"/>
           <font size="20"/>
-          <text value="Continue Game"/>
+          <text value="Select Level"/>
         </properties>
       </component>
       <vspacer id="1a04">

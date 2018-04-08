@@ -194,6 +194,7 @@ public class FileManager {
                 }
             }
             LevelEditor.saveFile = file;
+            LevelEditor.frame.setTitle("Level Editor - " + file.getName().replaceFirst("[.][^.]+$", ""));//get rid of the file extension
         } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(LevelEditor.frame, "File not Found", "Warning", JOptionPane.ERROR_MESSAGE);
         } catch (XMLStreamException e) {

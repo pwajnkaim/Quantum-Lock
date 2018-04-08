@@ -74,7 +74,23 @@ public class Level extends World{
         levelPopulate();
     }
 
-    public void levelPopulate() {
+    private void levelPopulate() {
+        class BasicInfo {
+            private String name;
+            private float xPos, yPos, rotation, xSize, ySize, radius;
+            private BasicInfo(XMLEventReader eventReader, boolean size, boolean circle) throws XMLStreamException{
+                name = readData(eventReader);
+                xPos = Float.parseFloat(readData(eventReader));
+                yPos = Float.parseFloat(readData(eventReader));
+                rotation = Float.parseFloat(readData(eventReader));
+                if(circle)
+                    radius = Float.parseFloat(readData(eventReader));
+                else if(size){
+                    xSize = Float.parseFloat(readData(eventReader));
+                    ySize = Float.parseFloat(readData(eventReader));
+                }
+            }
+        }
         try {
             ArrayList<SlidingDoor> doorList = new ArrayList<>();
             XMLInputFactory factory = XMLInputFactory.newInstance();
@@ -86,33 +102,19 @@ public class Level extends World{
                     String qName = startElement.getName().getLocalPart();
 
                     if (qName.equalsIgnoreCase("boxStaticBody")) {
-                        String name = readData(eventReader);
-                        float xPos = Float.parseFloat(readData(eventReader));
-                        float yPos = Float.parseFloat(readData(eventReader));
-                        float rotation = Float.parseFloat(readData(eventReader));
-                        float xSize = Float.parseFloat(readData(eventReader));
-                        float ySize = Float.parseFloat(readData(eventReader));
-                        StaticBody body = new StaticBody(this, new BoxShape(xSize,ySize));
-                        body.setName(name);
-                        body.setPosition(new Vec2(xPos, yPos));
-                        body.setAngle(rotation);
+                        BasicInfo bi = new BasicInfo(eventReader, true, false);
+                        StaticBody body = new StaticBody(this, new BoxShape(bi.xSize,bi.ySize));
+                        body.setName(bi.name);
+                        body.setPosition(new Vec2(bi.xPos, bi.yPos));
+                        body.setAngle(bi.rotation);
                     } else if(qName.equalsIgnoreCase("circleStaticBody")) {
-                        String name = readData(eventReader);
-                        float xPos = Float.parseFloat(readData(eventReader));
-                        float yPos = Float.parseFloat(readData(eventReader));
-                        float rotation = Float.parseFloat(readData(eventReader));
-                        float radius = Float.parseFloat(readData(eventReader));
-                        StaticBody body = new StaticBody(this, new CircleShape(radius));
-                        body.setName(name);
-                        body.setPosition(new Vec2(xPos, yPos));
-                        body.setAngle(rotation);
+                        BasicInfo bi = new BasicInfo(eventReader, false,true);
+                        StaticBody body = new StaticBody(this, new CircleShape(bi.radius));
+                        body.setName(bi.name);
+                        body.setPosition(new Vec2(bi.xPos, bi.yPos));
+                        body.setAngle(bi.rotation);
                     } else if (qName.equalsIgnoreCase("slidingDoor")) {
-                        String name = readData(eventReader);
-                        float xPos = Float.parseFloat(readData(eventReader));
-                        float yPos = Float.parseFloat(readData(eventReader));
-                        float rotation = Float.parseFloat(readData(eventReader));
-                        float xSize = Float.parseFloat(readData(eventReader));
-                        float ySize = Float.parseFloat(readData(eventReader));
+                        BasicInfo bi = new BasicInfo(eventReader, true, false);
                         float xOpenPos = Float.parseFloat(readData(eventReader));
                         float yOpenPos = Float.parseFloat(readData(eventReader));
                         float xClosedPos = Float.parseFloat(readData(eventReader));
@@ -120,32 +122,26 @@ public class Level extends World{
                         float slidingSpeed = Float.parseFloat(readData(eventReader));
                         boolean startOpen = Boolean.parseBoolean(readData(eventReader));
                         boolean stayOpen = Boolean.parseBoolean(readData(eventReader));
-                        SlidingDoor body = new SlidingDoor(this, new BoxShape(xSize,ySize), new Vec2(xOpenPos,yOpenPos), new Vec2(xClosedPos,yClosedPos), slidingSpeed, !startOpen);
-                        body.setName(name);
-                        body.setPosition(new Vec2(xPos, yPos));
-                        body.setAngle(rotation);
+                        SlidingDoor body = new SlidingDoor(this, new BoxShape(bi.xSize,bi.ySize), new Vec2(xOpenPos,yOpenPos), new Vec2(xClosedPos,yClosedPos), slidingSpeed, !startOpen);
+                        body.setName(bi.name);
+                        body.setPosition(new Vec2(bi.xPos, bi.yPos));
+                        body.setAngle(bi.rotation);
                         body.stayOpen(stayOpen);
                         doorList.add(body);
                         addSlidingDoor(body);
                     } else if(qName.equalsIgnoreCase("crate")) {
-                        String name = readData(eventReader);
-                        float xPos = Float.parseFloat(readData(eventReader));
-                        float yPos = Float.parseFloat(readData(eventReader));
-                        float rotation = Float.parseFloat(readData(eventReader));
+                        BasicInfo bi = new BasicInfo(eventReader, false, false);
                         float density = Float.parseFloat(readData(eventReader));
-                        Crate body = new Crate(this, new Vec2(xPos,yPos), density);
-                        body.setName(name);
-                        body.setAngle(rotation);
+                        Crate body = new Crate(this, new Vec2(bi.xPos,bi.yPos), density);
+                        body.setName(bi.name);
+                        body.setAngle(bi.rotation);
                     } else if(qName.equalsIgnoreCase("ball")) {
-                        String name = readData(eventReader);
-                        float xPos = Float.parseFloat(readData(eventReader));
-                        float yPos = Float.parseFloat(readData(eventReader));
-                        float rotation = Float.parseFloat(readData(eventReader));
+                        BasicInfo bi = new BasicInfo(eventReader, false, false);
                         float density = Float.parseFloat(readData(eventReader));
                         float radius = Float.parseFloat(readData(eventReader));
-                        Ball body = new Ball(this, new Vec2(xPos,yPos), new CircleShape(radius), density);
-                        body.setName(name);
-                        body.setAngle(rotation);
+                        Ball body = new Ball(this, new Vec2(bi.xPos,bi.yPos), new CircleShape(radius), density);
+                        body.setName(bi.name);
+                        body.setAngle(bi.rotation);
                     } else if(qName.equalsIgnoreCase("button")) {
                         String name = readData(eventReader);
                         float xPos = Float.parseFloat(readData(eventReader));
@@ -162,13 +158,10 @@ public class Level extends World{
                             }
                         }
                     } else if(qName.equalsIgnoreCase("player")) {
-                        String name = readData(eventReader);
-                        float xPos = Float.parseFloat(readData(eventReader));
-                        float yPos = Float.parseFloat(readData(eventReader));
-                        readData(eventReader); //skip rotation
+                        BasicInfo bi = new BasicInfo(eventReader, false, false);
                         boolean gunDisabled = Boolean.parseBoolean(readData(eventReader));
-                        player.setPosition(new Vec2(xPos,yPos));
-                        player.setName(name);
+                        player.setPosition(new Vec2(bi.xPos,bi.yPos));
+                        player.setName(bi.name);
                         player.setGun(!gunDisabled);
                     } else if(qName.equalsIgnoreCase("exit")) {
                         String name = readData(eventReader);

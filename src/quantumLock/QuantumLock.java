@@ -8,6 +8,7 @@ package quantumLock;
 import quantumLock.Levels.*;
 import city.cs.engine.*;
 import quantumLock.UI.EndLevelMenu;
+import quantumLock.UI.LevelSelectMenu;
 import quantumLock.UI.MainMenu;
 import quantumLock.UI.PauseMenu;
 
@@ -23,7 +24,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author pwajn
  */
-public class QuantumLock implements ActionListener{
+public class QuantumLock{
     public static final JFrame frame = new JFrame("Quantum Lock");
     public static Level world;
 
@@ -34,13 +35,6 @@ public class QuantumLock implements ActionListener{
     public static boolean isPaused = false;
 
     private static EndLevelMenu endLevelMenu = new EndLevelMenu();
-
-    @Override
-    public void actionPerformed(ActionEvent e) { //next level button was pressed
-        world.clear();
-        nextLevel();
-        hideLevelEnd();
-    }
 
     private static int currentLevel = 0; //0 = main menu
 
@@ -90,26 +84,30 @@ public class QuantumLock implements ActionListener{
         endLevelMenu.clearResults();
         overallTime = 0;
 
-        currentLevel = 1;
-        startLevel();
+        currentLevel = 3;
+        startLevel(levelList.get(currentLevel-1));
     }
-
     public static void nextLevel() {
         world.clear();
         world = null;
         currentLevel++;
-        startLevel();
+        startLevel(levelList.get(currentLevel-1));
     }
-
     public static void goToLevel(int level) {
         endLevelMenu.clearResults();
         overallTime = 0;
 
         currentLevel = level;
-        startLevel();
+        startLevel(levelList.get(currentLevel-1));
+    }
+    public static void startCustomLevel(File file) {
+        endLevelMenu.clearResults();
+        overallTime = 0;
+        currentLevel = 0;
+        startLevel(new Level(file));
     }
 
-    private static void startLevel() {
+    private static void startLevel(Level level) {
         if(currentLevel >= levelList.size()+1) {
             quitGame(); //close game if at final level
         }
@@ -119,7 +117,7 @@ public class QuantumLock implements ActionListener{
         for(MouseListener mouseListener : frame.getMouseListeners()) frame.removeMouseListener(mouseListener);
         for(MouseMotionListener mouseMotionListener : frame.getMouseMotionListeners()) frame.removeMouseMotionListener(mouseMotionListener);
 
-        world = levelList.get(currentLevel-1);
+        world = level;
 
 
         UserView view = new UserView(world, 1366, 768);
@@ -181,7 +179,8 @@ public class QuantumLock implements ActionListener{
     public static void showLevelEnd() {
         endLevelMenu.show();
 
-        if(currentLevel+1 >= levelList.size()+1) endLevelMenu.nextLevelButton.setEnabled(false);
+        //disable next level button if last level or custom level
+        if(currentLevel >= levelList.size() || currentLevel == 0) endLevelMenu.nextLevelButton.setEnabled(false);
 
         overallTime += world.currentTime;
         endLevelMenu.time.setText("Your Time: " + formatTimer(world.currentTime));
@@ -193,7 +192,8 @@ public class QuantumLock implements ActionListener{
         endLevelMenu.hide();
         frame.requestFocus();
     }
-    
+
+
     public static void pauseGame() {
         if(!endLevelMenu.endPanel.isVisible()) {
             isPaused = true;
@@ -208,5 +208,12 @@ public class QuantumLock implements ActionListener{
         world.resume();
         pauseMenu.hide();
         frame.requestFocus();
+    }
+
+    public static void showLevelSelectMenu() {
+        frame.getContentPane().removeAll(); //clear everything
+        LevelSelectMenu levelSelectMenu = new LevelSelectMenu();
+        frame.add(levelSelectMenu.levelSelectPanel);
+        frame.setVisible(true);
     }
 }

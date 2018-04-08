@@ -1,7 +1,10 @@
 package leveleditor;
 
 import city.cs.engine.*;
+import leveleditor.bodies.Ball;
 import leveleditor.bodies.BoxStaticBody;
+import leveleditor.bodies.Button;
+import leveleditor.bodies.Crate;
 import org.jbox2d.common.Vec2;
 
 import javax.swing.*;
@@ -24,7 +27,7 @@ public class LevelEditor {
         frame = new JFrame("Level Editor");
 
         //frame.setSize(1200, 900);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //close when closed
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE); //close when closed
         frame.setLocationByPlatform(true);
         frame.setResizable(true);
         frame.setLayout(new BorderLayout());
@@ -34,8 +37,9 @@ public class LevelEditor {
         frame.add(view, BorderLayout.CENTER); //show world in window
         frame.pack();
 
-        mouseController = new MouseController(view);
+        makeBodies();
 
+        mouseController = new MouseController(view);
         JScrollPane scrollPane = new JScrollPane(controlPanel.panel);
         frame.add(scrollPane, BorderLayout.WEST);
         MenuBar menuBar = new MenuBar();
@@ -46,17 +50,17 @@ public class LevelEditor {
         view.addMouseWheelListener(mouseController);
         world.addStepListener(new EditorStepListener());
         KeyController keyController = new KeyController();
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
-            @Override
-            public boolean dispatchKeyEvent(KeyEvent e) {
-                keyController.handleInput(e);
-                return false;
-            }
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(e -> {
+            keyController.handleInput(e);
+            return false;
         });
 
         view.setGridResolution(1);
         frame.setVisible(true);
         world.start();
+    }
+
+    private void makeBodies() {
     }
 
     static void clearWorld() {
